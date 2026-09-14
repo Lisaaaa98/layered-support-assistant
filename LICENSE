@@ -19,13 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-This licence covers the code, evaluation set and documentation in this
-repository.
-
-It does not cover DBS Bank's published documents, which the code downloads at
-run time, nor any text derived from them. Those remain the property of their
-owner and are neither redistributed here nor licensed by this project. This
-project is not affiliated with or endorsed by DBS Bank.

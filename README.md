@@ -113,9 +113,13 @@ uv run python eval/run_e2e_eval.py         # full pipeline, ~15 minutes on M1
 
 ## Licence
 
-MIT, covering the code, evaluation set and documentation. DBS's published
-documents are downloaded at run time, are not redistributed here, and are not
-covered by it. This project is not affiliated with DBS Bank.
+[MIT](LICENSE), covering the code, evaluation set and documentation in this
+repository.
+
+It does not extend to DBS Bank's published documents, which the code downloads
+at run time, nor to any text derived from them. Those remain the property of
+their owner, are not redistributed here, and are not licensed by this project.
+This project is not affiliated with or endorsed by DBS Bank.
 
 ## Documentation
 
