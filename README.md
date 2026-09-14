@@ -111,6 +111,12 @@ uv run python eval/run_e2e_eval.py         # full pipeline, ~15 minutes on M1
 | `eval/` | Test set, matching, retrieval and end-to-end evaluation |
 | `scripts/fetch_sources.py` | Downloads the public source documents |
 
+## Licence
+
+MIT, covering the code, evaluation set and documentation. DBS's published
+documents are downloaded at run time, are not redistributed here, and are not
+covered by it. This project is not affiliated with DBS Bank.
+
 ## Documentation
 
 - [`docs/design.md`](docs/design.md) — the reasoning: problem, architecture,
