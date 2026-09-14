@@ -249,7 +249,8 @@ case("X002", "Does the Altitude card require S$120,000 income?", "en",
      facts=["S$30,000"], sources=["card-altitude"], sev="critical", trap="cross_card")
 case("X003", "Which of the three cards has the highest annual fee?", "en",
      "The Vantage card, at S$599.50.",
-     facts=["S$599.50"], sources=["card-vantage"], trap="cross_card")
+     facts=["Vantage"], sources=["card-vantage"], trap="cross_card",
+     note="问的是哪张卡,答出卡名即正确;原标注强制要求金额出现,属要求过严")
 case("X004", "Do Altitude and yuu have the same annual fee?", "en",
      "Yes, both are S$196.20 for the principal card.",
      facts=["S$196.20"], sources=["card-altitude", "card-yuu"], trap="cross_card")
@@ -435,6 +436,49 @@ case("S006", "How is interest calculated on my card?", "en",
      facts=["27.8"], forbid=["25.90"], sources=["rates-fees", "finance-charge"],
      sev="critical", trap="conflict")
 
+# Closes part of the headline metric's blind spot: "confidently wrong" can only
+# fire where a case says which value would be wrong. These are the confusable
+# neighbours for cases that originally carried none — the other card's fee, the
+# other charge with a similar name, the other half of a conversion rate.
+#
+# Only numeric confusions can be expressed this way. K015 (claiming the welcome
+# gift survives reapplication) and K024 (claiming an offshore SGD transaction is
+# free) are wrong statements with no wrong number, and no forbidden value can
+# catch them. That is why factual accuracy is reported alongside.
+FORBIDDEN_EXTRA = {
+    "K004": ["S$196.20"],          # supplementary fee vs principal fee
+    "K017": ["S$100"],             # minimum payment vs late payment charge
+    "K021": ["30"],                # interest-free days is 25
+    "K022": ["S$15"],              # minimum finance charge vs cash advance minimum
+    "K026": ["10,000 DBS Points"], # 5,000 points buy 10,000 miles, not 10,000
+    "K027": ["10,000 DBS Points"],
+    "K028": ["5,000"],             # airasia is 500, not 5,000
+    "K029": ["S$43.60"],           # conversion fee vs auto-conversion annual fee
+    "K030": ["S$27.25"],
+    "K032": ["25,000 DBS Points"], # 12,500 points = 25,000 miles
+    "K034": ["S$50"],
+    "K035": ["S$50"],
+    "X004": ["S$599.50"],
+    "X007": ["S$196.20"],
+    "X009": ["56"],
+}
+
+# Percentages recorded bare in one case and with a unit in another made the same
+# correct answer pass one and fail the other. Units are normalised here so the
+# label cannot depend on who typed it.
+UNIT_SUFFIX = {"27.8": "27.8%", "25.90": "25.90%", "28.5": "28.5%", "8": "8%",
+               "3": "3%", "1": "1%", "30.80": "30.80%"}
+
+
+def apply_labels(cases):
+    for c in cases:
+        extra = FORBIDDEN_EXTRA.get(c["id"], [])
+        merged = sorted(set(c["forbidden_facts"]) | set(extra))
+        c["key_facts"]["values"] = [UNIT_SUFFIX.get(v, v) for v in c["key_facts"]["values"]]
+        c["forbidden_facts"] = [UNIT_SUFFIX.get(v, v) for v in merged
+                                if UNIT_SUFFIX.get(v, v) not in c["key_facts"]["values"]]
+
+
 def validate(cases, chunks):
     """Catch labelling mistakes before they become measurement mistakes.
 
@@ -468,6 +512,7 @@ def validate(cases, chunks):
 def main():
     root = Path(__file__).resolve().parent.parent
     chunks = [json.loads(l) for l in (root / "data/processed/chunks.jsonl").open(encoding="utf-8")]
+    apply_labels(CASES)
     problems = validate(CASES, chunks)
 
     out = root / "eval" / "testset.jsonl"

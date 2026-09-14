@@ -85,6 +85,9 @@ def main():
     out = ROOT / "eval" / "baseline_retrieval.json"
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 
+    print("Retrieval in isolation: lexical only, before routing and card-scope")
+    print("filtering. Leak counts here are higher than end-to-end by design —")
+    print("this measures what retrieval alone puts within reach of the model.\n")
     print(f"用例 {len(tests)}  top_k={TOP_K}")
     print(f"来源召回率  {recall_hit}/{recall_total} = {report['source_recall']['rate']:.0%}")
     print(f"禁忌值压制率 {supp_ok}/{supp_total} = {report['forbidden_suppression']['rate']:.0%}")

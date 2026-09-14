@@ -2,14 +2,14 @@
   "top_k": 6,
   "cases": 146,
   "source_recall": {
-    "hit": 70,
+    "hit": 71,
     "total": 75,
-    "rate": 0.933
+    "rate": 0.947
   },
   "forbidden_suppression": {
-    "ok": 17,
-    "total": 27,
-    "rate": 0.63
+    "ok": 23,
+    "total": 42,
+    "rate": 0.548
   },
   "by_language": {
     "en": {
@@ -17,7 +17,7 @@
       "total": 50
     },
     "zh": {
-      "hit": 11,
+      "hit": 12,
       "total": 15
     },
     "mixed": {
@@ -59,6 +59,14 @@
       "trap": null
     },
     {
+      "id": "K017",
+      "remaining": [
+        "S$100"
+      ],
+      "question": "What is the minimum monthly repayment?",
+      "trap": null
+    },
+    {
       "id": "N001",
       "remaining": [
         "S$196.20",
@@ -79,7 +87,7 @@
     {
       "id": "N003",
       "remaining": [
-        "27.8"
+        "27.8%"
       ],
       "question": "What is the interest rate on a DBS home loan?",
       "trap": "out_of_domain"
@@ -87,7 +95,7 @@
     {
       "id": "N004",
       "remaining": [
-        "27.8"
+        "27.8%"
       ],
       "question": "DBS 的定期存款利率是多少?",
       "trap": "out_of_domain"
@@ -104,14 +112,22 @@
     {
       "id": "N009",
       "remaining": [
-        "27.8"
+        "27.8%"
       ],
       "question": "What will the interest rate be next year?",
       "trap": "speculation"
+    },
+    {
+      "id": "A016",
+      "remaining": [
+        "5,000"
+      ],
+      "question": "How many DBS Points do I have right now?",
+      "trap": "needs_auth"
     }
   ],
   "refusal_cases": {
-    "correctly_empty": 4,
+    "correctly_empty": 3,
     "total": 22
   },
   "leaks": [
@@ -132,6 +148,14 @@
       "trap": null
     },
     {
+      "id": "K004",
+      "remaining": [
+        "S$196.20"
+      ],
+      "question": "How much is the supplementary card annual fee on the Altitude card?",
+      "trap": null
+    },
+    {
       "id": "K005",
       "remaining": [
         "S$30,000"
@@ -146,6 +170,62 @@
       ],
       "question": "I am 60 years old and a Singaporean. What is the minimum income for the yuu card?",
       "trap": null
+    },
+    {
+      "id": "K017",
+      "remaining": [
+        "S$100"
+      ],
+      "question": "What is the minimum monthly repayment?",
+      "trap": null
+    },
+    {
+      "id": "K021",
+      "remaining": [
+        "30"
+      ],
+      "question": "How many interest-free days do I get?",
+      "trap": null
+    },
+    {
+      "id": "K022",
+      "remaining": [
+        "S$15"
+      ],
+      "question": "Is there a minimum finance charge?",
+      "trap": null
+    },
+    {
+      "id": "K028",
+      "remaining": [
+        "5,000"
+      ],
+      "question": "What is the conversion rate for airasia points?",
+      "trap": null
+    },
+    {
+      "id": "K029",
+      "remaining": [
+        "S$43.60"
+      ],
+      "question": "Is there a fee to convert points to Air Asia?",
+      "trap": null
+    },
+    {
+      "id": "K030",
+      "remaining": [
+        "S$27.25"
+      ],
+      "question": "What does the KrisFlyer Miles Auto Conversion Programme cost?",
+      "trap": null
+    },
+    {
+      "id": "X004",
+      "remaining": [
+        "S$599.50"
+      ],
+      "question": "Do Altitude and yuu have the same annual fee?",
+      "trap": "cross_card"
     },
     {
       "id": "N001",
@@ -168,7 +248,7 @@
     {
       "id": "N003",
       "remaining": [
-        "27.8"
+        "27.8%"
       ],
       "question": "What is the interest rate on a DBS home loan?",
       "trap": "out_of_domain"
@@ -176,7 +256,7 @@
     {
       "id": "N004",
       "remaining": [
-        "27.8"
+        "27.8%"
       ],
       "question": "DBS 的定期存款利率是多少?",
       "trap": "out_of_domain"
@@ -193,10 +273,18 @@
     {
       "id": "N009",
       "remaining": [
-        "27.8"
+        "27.8%"
       ],
       "question": "What will the interest rate be next year?",
       "trap": "speculation"
+    },
+    {
+      "id": "A016",
+      "remaining": [
+        "5,000"
+      ],
+      "question": "How many DBS Points do I have right now?",
+      "trap": "needs_auth"
     }
   ],
   "rows": [
@@ -247,7 +335,9 @@
       "severity": "normal",
       "lang": "en",
       "recalled": true,
-      "leaked": [],
+      "leaked": [
+        "S$196.20"
+      ],
       "empty": false,
       "suppressed": [],
       "escalate": false
@@ -409,7 +499,9 @@
       "severity": "critical",
       "lang": "en",
       "recalled": true,
-      "leaked": [],
+      "leaked": [
+        "S$100"
+      ],
       "empty": false,
       "suppressed": [],
       "escalate": false
@@ -461,7 +553,9 @@
       "severity": "normal",
       "lang": "en",
       "recalled": true,
-      "leaked": [],
+      "leaked": [
+        "30"
+      ],
       "empty": false,
       "suppressed": [],
       "escalate": false
@@ -473,7 +567,9 @@
       "severity": "normal",
       "lang": "en",
       "recalled": true,
-      "leaked": [],
+      "leaked": [
+        "S$15"
+      ],
       "empty": false,
       "suppressed": [],
       "escalate": false
@@ -545,7 +641,9 @@
       "severity": "normal",
       "lang": "en",
       "recalled": true,
-      "leaked": [],
+      "leaked": [
+        "5,000"
+      ],
       "empty": false,
       "suppressed": [],
       "escalate": false
@@ -557,7 +655,9 @@
       "severity": "normal",
       "lang": "en",
       "recalled": true,
-      "leaked": [],
+      "leaked": [
+        "S$43.60"
+      ],
       "empty": false,
       "suppressed": [],
       "escalate": false
@@ -569,7 +669,9 @@
       "severity": "normal",
       "lang": "en",
       "recalled": true,
-      "leaked": [],
+      "leaked": [
+        "S$27.25"
+      ],
       "empty": false,
       "suppressed": [],
       "escalate": false
@@ -1011,7 +1113,9 @@
       "severity": "normal",
       "lang": "en",
       "recalled": true,
-      "leaked": [],
+      "leaked": [
+        "S$599.50"
+      ],
       "empty": false,
       "suppressed": [],
       "escalate": false
@@ -1126,7 +1230,7 @@
       "lang": "en",
       "recalled": null,
       "leaked": [
-        "27.8"
+        "27.8%"
       ],
       "empty": false,
       "suppressed": [
@@ -1142,7 +1246,7 @@
       "lang": "zh",
       "recalled": null,
       "leaked": [
-        "27.8"
+        "27.8%"
       ],
       "empty": false,
       "suppressed": [
@@ -1209,7 +1313,7 @@
       "lang": "en",
       "recalled": null,
       "leaked": [
-        "27.8"
+        "27.8%"
       ],
       "empty": false,
       "suppressed": [
@@ -1226,7 +1330,9 @@
       "recalled": null,
       "leaked": [],
       "empty": false,
-      "suppressed": [],
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
       "escalate": false
     },
     {
@@ -1263,7 +1369,7 @@
       "lang": "zh",
       "recalled": null,
       "leaked": [],
-      "empty": true,
+      "empty": false,
       "suppressed": [],
       "escalate": false
     },
@@ -1476,7 +1582,9 @@
       "severity": "critical",
       "lang": "en",
       "recalled": null,
-      "leaked": [],
+      "leaked": [
+        "5,000"
+      ],
       "empty": false,
       "suppressed": [],
       "escalate": false
@@ -1649,7 +1757,7 @@
       "lang": "zh",
       "recalled": null,
       "leaked": [],
-      "empty": true,
+      "empty": false,
       "suppressed": [],
       "escalate": false
     },
@@ -1831,7 +1939,7 @@
       "lang": "mixed",
       "recalled": null,
       "leaked": [],
-      "empty": true,
+      "empty": false,
       "suppressed": [],
       "escalate": false
     },
@@ -1988,9 +2096,9 @@
       "trap": null,
       "severity": "critical",
       "lang": "zh",
-      "recalled": false,
+      "recalled": true,
       "leaked": [],
-      "empty": true,
+      "empty": false,
       "suppressed": [],
       "escalate": false
     },
