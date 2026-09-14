@@ -1,0 +1,18 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Source documents are DBS's own published material: fetched, not redistributed.
+# Recreate with: uv run python scripts/fetch_sources.py
+data/raw/
+
+# Regenerable build artefacts
+data/processed/embeddings.npy
+.DS_Store

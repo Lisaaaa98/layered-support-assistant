@@ -1,0 +1,87 @@
+{
+  "retrieved_at": "2026-09-09",
+  "note": "All documents are publicly accessible product terms from dbs.com.sg. No customer data.",
+  "docs": [
+    {
+      "file": "dbs-card-agreement.pdf",
+      "url": "https://www.dbs.com.sg/iwov-resources/pdf/cards/dbs-card-agreement.pdf",
+      "doc_type": "agreement",
+      "parser": "pdf",
+      "authority": 3,
+      "freshness": "static",
+      "title": "DBS Credit Card Agreement (all DBS credit cards)"
+    },
+    {
+      "file": "dbs-agreement-2019.pdf",
+      "url": "https://www.dbs.com.sg/iwov-resources/pdf/cards/dbs-agreement-2019.pdf",
+      "doc_type": "agreement",
+      "parser": "pdf",
+      "authority": 3,
+      "freshness": "static",
+      "title": "DBS Credit Card Agreement (all DBS credit cards)"
+    },
+    {
+      "file": "rates-fees.html",
+      "url": "https://www.dbs.com.sg/personal/cards/cards-rates-fees.page",
+      "doc_type": "fees",
+      "parser": "nextdata",
+      "authority": 4,
+      "freshness": "live",
+      "title": "DBS Cards Rates and Fees (all DBS credit cards)"
+    },
+    {
+      "file": "finance-charge.html",
+      "url": "https://www.dbs.com.sg/personal/support/card-charges-and-fees-finance-charge.html",
+      "doc_type": "support",
+      "parser": "static",
+      "authority": 3,
+      "freshness": "live",
+      "title": "DBS Credit Card Interest Rate and Finance Charges"
+    },
+    {
+      "file": "late-fee.html",
+      "url": "https://www.dbs.com.sg/personal/support/card-charges-and-fees-late-fee.html",
+      "doc_type": "support",
+      "parser": "static",
+      "authority": 3,
+      "freshness": "live",
+      "title": "DBS Credit Card Late Payment Fees and Charges"
+    },
+    {
+      "file": "waive-charges.html",
+      "url": "https://www.dbs.com.sg/personal/support/card-waive-credit-card-cashline-charges.html",
+      "doc_type": "support",
+      "parser": "static",
+      "authority": 3,
+      "freshness": "live",
+      "title": "Waiving DBS Credit Card and Cashline Fees"
+    },
+    {
+      "file": "card-altitude.html",
+      "url": "https://www.dbs.com.sg/personal/cards/credit-cards/dbs-altitude-cards",
+      "doc_type": "card_product",
+      "parser": "nextdata",
+      "authority": 2,
+      "freshness": "live",
+      "title": "DBS Altitude Card"
+    },
+    {
+      "file": "card-yuu.html",
+      "url": "https://www.dbs.com.sg/personal/cards/credit-cards/dbs-yuu-cards",
+      "doc_type": "card_product",
+      "parser": "nextdata",
+      "authority": 2,
+      "freshness": "live",
+      "title": "DBS yuu Card"
+    },
+    {
+      "file": "card-vantage.html",
+      "url": "https://www.dbs.com.sg/i-bank/cards/credit-cards/dbs-vantage-visa-infinite-card",
+      "doc_type": "card_product",
+      "parser": "nextdata",
+      "authority": 2,
+      "freshness": "live",
+      "title": "DBS Vantage Visa Infinite Card"
+    }
+  ]
+}

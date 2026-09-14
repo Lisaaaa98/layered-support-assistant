@@ -1,0 +1,140 @@
+[
+  {
+    "values": [
+      "25.90%",
+      "27.8%"
+    ],
+    "scope": [
+      "general"
+    ],
+    "members": [
+      {
+        "chunk_id": "dbs-card-agreement#007",
+        "doc": "dbs-card-agreement",
+        "value": "25.90%",
+        "date": null,
+        "confidence": "unknown"
+      },
+      {
+        "chunk_id": "dbs-agreement-2019#008",
+        "doc": "dbs-agreement-2019",
+        "value": "27.8%",
+        "date": "30 June 2026",
+        "confidence": "stated"
+      }
+    ],
+    "verdict": {
+      "resolved": true,
+      "rule": "recency_confidence",
+      "detail": "stated 优先于 unknown",
+      "confidence": "high",
+      "winner": "dbs-agreement-2019#008",
+      "winner_value": "27.8%",
+      "winner_date": "30 June 2026",
+      "suppressed": [
+        {
+          "chunk_id": "dbs-card-agreement#007",
+          "value": "25.90%",
+          "doc": "dbs-card-agreement"
+        }
+      ],
+      "action": "answer"
+    }
+  },
+  {
+    "values": [
+      "6%",
+      "8%"
+    ],
+    "scope": [
+      "cash_advance"
+    ],
+    "members": [
+      {
+        "chunk_id": "dbs-card-agreement#008",
+        "doc": "dbs-card-agreement",
+        "value": "6%",
+        "date": null,
+        "confidence": "unknown"
+      },
+      {
+        "chunk_id": "dbs-agreement-2019#009",
+        "doc": "dbs-agreement-2019",
+        "value": "8%",
+        "date": "30 June 2026",
+        "confidence": "stated"
+      },
+      {
+        "chunk_id": "rates-fees#007",
+        "doc": "rates-fees",
+        "value": "8%",
+        "date": "2026-09-09",
+        "confidence": "inferred"
+      }
+    ],
+    "verdict": {
+      "resolved": true,
+      "rule": "recency_confidence",
+      "detail": "stated 优先于 inferred",
+      "confidence": "high",
+      "winner": "dbs-agreement-2019#009",
+      "winner_value": "8%",
+      "winner_date": "30 June 2026",
+      "suppressed": [
+        {
+          "chunk_id": "dbs-card-agreement#008",
+          "value": "6%",
+          "doc": "dbs-card-agreement"
+        },
+        {
+          "chunk_id": "rates-fees#007",
+          "value": "8%",
+          "doc": "rates-fees"
+        }
+      ],
+      "action": "answer"
+    }
+  },
+  {
+    "values": [
+      "28%",
+      "28.5%"
+    ],
+    "scope": [
+      "cash_advance"
+    ],
+    "members": [
+      {
+        "chunk_id": "dbs-card-agreement#009",
+        "doc": "dbs-card-agreement",
+        "value": "28%",
+        "date": null,
+        "confidence": "unknown"
+      },
+      {
+        "chunk_id": "dbs-agreement-2019#010",
+        "doc": "dbs-agreement-2019",
+        "value": "28.5%",
+        "date": "30 June 2026",
+        "confidence": "stated"
+      }
+    ],
+    "verdict": {
+      "resolved": true,
+      "rule": "recency_confidence",
+      "detail": "stated 优先于 unknown",
+      "confidence": "high",
+      "winner": "dbs-agreement-2019#010",
+      "winner_value": "28.5%",
+      "winner_date": "30 June 2026",
+      "suppressed": [
+        {
+          "chunk_id": "dbs-card-agreement#009",
+          "value": "28%",
+          "doc": "dbs-card-agreement"
+        }
+      ],
+      "action": "answer"
+    }
+  }
+]

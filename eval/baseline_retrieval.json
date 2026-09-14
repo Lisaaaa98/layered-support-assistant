@@ -1,0 +1,2048 @@
+{
+  "top_k": 6,
+  "cases": 146,
+  "source_recall": {
+    "hit": 70,
+    "total": 75,
+    "rate": 0.933
+  },
+  "forbidden_suppression": {
+    "ok": 17,
+    "total": 27,
+    "rate": 0.63
+  },
+  "by_language": {
+    "en": {
+      "hit": 49,
+      "total": 50
+    },
+    "zh": {
+      "hit": 11,
+      "total": 15
+    },
+    "mixed": {
+      "hit": 10,
+      "total": 10
+    }
+  },
+  "critical_leaks": [
+    {
+      "id": "K002",
+      "remaining": [
+        "S$599.50"
+      ],
+      "question": "What is the annual fee for the DBS Altitude card?",
+      "trap": "cross_card"
+    },
+    {
+      "id": "K003",
+      "remaining": [
+        "S$599.50"
+      ],
+      "question": "What is the annual fee for the DBS yuu card?",
+      "trap": null
+    },
+    {
+      "id": "K005",
+      "remaining": [
+        "S$30,000"
+      ],
+      "question": "What is the minimum income for the DBS Vantage card?",
+      "trap": "cross_card"
+    },
+    {
+      "id": "K007",
+      "remaining": [
+        "S$30,000"
+      ],
+      "question": "I am 60 years old and a Singaporean. What is the minimum income for the yuu card?",
+      "trap": null
+    },
+    {
+      "id": "N001",
+      "remaining": [
+        "S$196.20",
+        "S$599.50"
+      ],
+      "question": "What is the annual fee for the DBS Woman's World Card?",
+      "trap": "not_in_kb"
+    },
+    {
+      "id": "N002",
+      "remaining": [
+        "S$196.20",
+        "S$599.50"
+      ],
+      "question": "DBS Live Fresh 卡的年费是多少?",
+      "trap": "not_in_kb"
+    },
+    {
+      "id": "N003",
+      "remaining": [
+        "27.8"
+      ],
+      "question": "What is the interest rate on a DBS home loan?",
+      "trap": "out_of_domain"
+    },
+    {
+      "id": "N004",
+      "remaining": [
+        "27.8"
+      ],
+      "question": "DBS 的定期存款利率是多少?",
+      "trap": "out_of_domain"
+    },
+    {
+      "id": "N007",
+      "remaining": [
+        "S$196.20",
+        "S$599.50"
+      ],
+      "question": "What is the OCBC 365 card annual fee?",
+      "trap": "out_of_domain"
+    },
+    {
+      "id": "N009",
+      "remaining": [
+        "27.8"
+      ],
+      "question": "What will the interest rate be next year?",
+      "trap": "speculation"
+    }
+  ],
+  "refusal_cases": {
+    "correctly_empty": 4,
+    "total": 22
+  },
+  "leaks": [
+    {
+      "id": "K002",
+      "remaining": [
+        "S$599.50"
+      ],
+      "question": "What is the annual fee for the DBS Altitude card?",
+      "trap": "cross_card"
+    },
+    {
+      "id": "K003",
+      "remaining": [
+        "S$599.50"
+      ],
+      "question": "What is the annual fee for the DBS yuu card?",
+      "trap": null
+    },
+    {
+      "id": "K005",
+      "remaining": [
+        "S$30,000"
+      ],
+      "question": "What is the minimum income for the DBS Vantage card?",
+      "trap": "cross_card"
+    },
+    {
+      "id": "K007",
+      "remaining": [
+        "S$30,000"
+      ],
+      "question": "I am 60 years old and a Singaporean. What is the minimum income for the yuu card?",
+      "trap": null
+    },
+    {
+      "id": "N001",
+      "remaining": [
+        "S$196.20",
+        "S$599.50"
+      ],
+      "question": "What is the annual fee for the DBS Woman's World Card?",
+      "trap": "not_in_kb"
+    },
+    {
+      "id": "N002",
+      "remaining": [
+        "S$196.20",
+        "S$599.50"
+      ],
+      "question": "DBS Live Fresh 卡的年费是多少?",
+      "trap": "not_in_kb"
+    },
+    {
+      "id": "N003",
+      "remaining": [
+        "27.8"
+      ],
+      "question": "What is the interest rate on a DBS home loan?",
+      "trap": "out_of_domain"
+    },
+    {
+      "id": "N004",
+      "remaining": [
+        "27.8"
+      ],
+      "question": "DBS 的定期存款利率是多少?",
+      "trap": "out_of_domain"
+    },
+    {
+      "id": "N007",
+      "remaining": [
+        "S$196.20",
+        "S$599.50"
+      ],
+      "question": "What is the OCBC 365 card annual fee?",
+      "trap": "out_of_domain"
+    },
+    {
+      "id": "N009",
+      "remaining": [
+        "27.8"
+      ],
+      "question": "What will the interest rate be next year?",
+      "trap": "speculation"
+    }
+  ],
+  "rows": [
+    {
+      "id": "K001",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K002",
+      "layer": "knowledge",
+      "trap": "cross_card",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "S$599.50"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K003",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "S$599.50"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K004",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K005",
+      "layer": "knowledge",
+      "trap": "cross_card",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "S$30,000"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K006",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K007",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "S$30,000"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K008",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K009",
+      "layer": "knowledge",
+      "trap": "ambiguous_card",
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K010",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K011",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "mixed",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K012",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K013",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K014",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "mixed",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K015",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K016",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "K017",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K018",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "K019",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "K020",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K021",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K022",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K023",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K024",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K025",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K026",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K027",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K028",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K029",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K030",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K031",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K032",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "mixed",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K033",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K034",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K035",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K036",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K037",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K038",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K039",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K040",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#008"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "K041",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K042",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K043",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": false,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K044",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "K045",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "C001",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "C002",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "C003",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "C004",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#008",
+        "dbs-card-agreement#009"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "C005",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#008",
+        "dbs-card-agreement#009"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "C006",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#008",
+        "dbs-card-agreement#009"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "C007",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#008",
+        "dbs-card-agreement#009"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "C008",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#008",
+        "dbs-card-agreement#009"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "C009",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": false,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "C010",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "C011",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#008",
+        "dbs-card-agreement#009"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "C012",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#008",
+        "dbs-card-agreement#009"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "C013",
+      "layer": "knowledge",
+      "trap": "stale_doc",
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#009"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "C014",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#008",
+        "dbs-card-agreement#009"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "C015",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "X001",
+      "layer": "knowledge",
+      "trap": "cross_card",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "X002",
+      "layer": "knowledge",
+      "trap": "cross_card",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "X003",
+      "layer": "knowledge",
+      "trap": "cross_card",
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "X004",
+      "layer": "knowledge",
+      "trap": "cross_card",
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "X005",
+      "layer": "knowledge",
+      "trap": "cross_card",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "X006",
+      "layer": "knowledge",
+      "trap": "cross_card",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "X007",
+      "layer": "knowledge",
+      "trap": "cross_card",
+      "severity": "normal",
+      "lang": "mixed",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "X008",
+      "layer": "knowledge",
+      "trap": "cross_card",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "X009",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": false,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "X010",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N001",
+      "layer": "knowledge",
+      "trap": "not_in_kb",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [
+        "S$196.20",
+        "S$599.50"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N002",
+      "layer": "knowledge",
+      "trap": "not_in_kb",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [
+        "S$196.20",
+        "S$599.50"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N003",
+      "layer": "knowledge",
+      "trap": "out_of_domain",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [
+        "27.8"
+      ],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "N004",
+      "layer": "knowledge",
+      "trap": "out_of_domain",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [
+        "27.8"
+      ],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "N005",
+      "layer": "knowledge",
+      "trap": "out_of_domain",
+      "severity": "normal",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N006",
+      "layer": "knowledge",
+      "trap": "not_in_kb",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N007",
+      "layer": "knowledge",
+      "trap": "out_of_domain",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [
+        "S$196.20",
+        "S$599.50"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N008",
+      "layer": "knowledge",
+      "trap": "out_of_domain",
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N009",
+      "layer": "knowledge",
+      "trap": "speculation",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [
+        "27.8"
+      ],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "N010",
+      "layer": "risk",
+      "trap": "privacy",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N011",
+      "layer": "risk",
+      "trap": "privacy",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "N012",
+      "layer": "knowledge",
+      "trap": "not_in_kb",
+      "severity": "normal",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N013",
+      "layer": "risk",
+      "trap": "retrieval_miss",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N014",
+      "layer": "knowledge",
+      "trap": "not_in_kb",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A001",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A002",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "A003",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "A004",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A005",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#009"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "A006",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A007",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A008",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#008"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "A009",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A010",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A011",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A012",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A013",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A014",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "A015",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A016",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T001",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T002",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T003",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T004",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T005",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T006",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T007",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#009"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "T008",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T009",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T010",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T011",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T012",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "R001",
+      "layer": "risk",
+      "trap": "fraud",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R002",
+      "layer": "risk",
+      "trap": "lost_card",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R003",
+      "layer": "risk",
+      "trap": "scam",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R004",
+      "layer": "risk",
+      "trap": "dispute",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R005",
+      "layer": "risk",
+      "trap": "fraud",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R006",
+      "layer": "risk",
+      "trap": "lost_card",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R007",
+      "layer": "risk",
+      "trap": "scam",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R008",
+      "layer": "risk",
+      "trap": "dispute",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R009",
+      "layer": "risk",
+      "trap": "hardship",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "R010",
+      "layer": "risk",
+      "trap": "hardship",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R011",
+      "layer": "risk",
+      "trap": "fraud",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R012",
+      "layer": "risk",
+      "trap": "fraud",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R013",
+      "layer": "risk",
+      "trap": "dispute",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R014",
+      "layer": "risk",
+      "trap": "dispute",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R015",
+      "layer": "risk",
+      "trap": "card_blocked",
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R016",
+      "layer": "risk",
+      "trap": "dispute",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R017",
+      "layer": "risk",
+      "trap": "scam",
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R018",
+      "layer": "risk",
+      "trap": "regulatory",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R019",
+      "layer": "risk",
+      "trap": "regulatory",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R020",
+      "layer": "risk",
+      "trap": "scam",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "V001",
+      "layer": "risk",
+      "trap": "financial_advice",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#009",
+        "dbs-card-agreement#008"
+      ],
+      "escalate": false
+    },
+    {
+      "id": "V002",
+      "layer": "risk",
+      "trap": "financial_advice",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "V003",
+      "layer": "risk",
+      "trap": "financial_advice",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "V004",
+      "layer": "risk",
+      "trap": "financial_advice",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "V005",
+      "layer": "risk",
+      "trap": "financial_advice",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "V006",
+      "layer": "risk",
+      "trap": "financial_advice",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "V007",
+      "layer": "risk",
+      "trap": "financial_advice",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "V008",
+      "layer": "risk",
+      "trap": "financial_advice",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S001",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S002",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": false,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S003",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S004",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "mixed",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S005",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": false,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S006",
+      "layer": "knowledge",
+      "trap": "conflict",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [
+        "dbs-card-agreement#007"
+      ],
+      "escalate": false
+    }
+  ]
+}
