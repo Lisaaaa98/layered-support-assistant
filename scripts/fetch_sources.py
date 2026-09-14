@@ -16,12 +16,16 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-RAW = ROOT / "data" / "raw"
+sys.path.insert(0, str(ROOT / "src"))
+
+import domain  # noqa: E402
+
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
 
 
 def main():
-    manifest = json.loads((ROOT / "data" / "sources.json").read_text(encoding="utf-8"))
+    manifest = json.loads(domain.sources_path().read_text(encoding="utf-8"))
+    RAW = domain.raw_dir()
     RAW.mkdir(parents=True, exist_ok=True)
     failed = []
 

@@ -7,7 +7,7 @@ value for any fact it might quote, and nothing it must not see.
 from dataclasses import dataclass, field
 
 from conflict import resolve_context
-from router import KNOWN_CARDS, route
+from router import route
 from extract import extractive_answer
 from verify import verify_figures
 
@@ -62,9 +62,9 @@ def format_context(chunks):
 
 
 REFUSAL_TEMPLATES = {
-    "another bank's product": "抱歉,我只能回答 DBS 信用卡相关的问题。",
-    "outside credit cards": "抱歉,我只处理 DBS 信用卡业务,该问题需要其他部门协助。",
-    "card not in knowledge base": "抱歉,我的资料中没有这张卡的信息,请查阅 DBS 官网或转接人工。",
+    "another provider's product": "抱歉,我只能回答本服务范围内的产品问题。",
+    "out of scope for this service": "抱歉,这不在本服务的范围内,需要其他部门协助。",
+    "card not in knowledge base": "抱歉,我的资料中没有这个产品的信息,请查阅官网或转接人工。",
     "financial advice requested": "抱歉,我无法提供个人财务建议。我可以说明相关费用与条款,具体决定建议咨询持牌人员。",
     "third-party account data": "抱歉,我无法提供他人账户的信息。",
 }
@@ -79,9 +79,9 @@ HANDOFF = {
 # A customer who writes in English and is told in Chinese that they are being
 # transferred has been failed by the one message that had no model in it.
 REFUSAL_TEMPLATES_EN = {
-    "another bank's product": "Sorry, I can only help with DBS credit cards.",
-    "outside credit cards": "Sorry, I only handle DBS credit cards. This needs another team.",
-    "card not in knowledge base": "Sorry, I don't have information on that card. Please check the DBS website or ask to speak to an agent.",
+    "another provider's product": "Sorry, I can only help with products from this provider.",
+    "out of scope for this service": "Sorry, that is outside what this service covers. Another team can help.",
+    "card not in knowledge base": "Sorry, I don't have information on that product. Please check the website or ask to speak to an agent.",
     "financial advice requested": "Sorry, I can't give personal financial advice. I can explain the fees and terms involved; for the decision itself, please speak to a licensed representative.",
     "third-party account data": "Sorry, I can't share information about someone else's account.",
 }

@@ -14,16 +14,19 @@ alongside the 3B generator.
 import json
 from pathlib import Path
 
+import domain
 import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
-CHUNKS = ROOT / "data" / "processed" / "chunks.jsonl"
-CACHE = ROOT / "data" / "processed" / "embeddings.npy"
+
+
 MODEL_ID = "intfloat/multilingual-e5-small"
 
 
 class DenseIndex:
     def __init__(self, model_id=MODEL_ID):
+        CHUNKS, CACHE = domain.chunks_path(), domain.embeddings_path()
+        self._cache = CACHE
         self.model_id = model_id
         self._model = None
         self.chunks = [json.loads(l) for l in CHUNKS.open(encoding="utf-8")]
@@ -44,14 +47,14 @@ class DenseIndex:
                                   show_progress_bar=False, batch_size=16)
 
     def build(self, force=False):
-        if CACHE.exists() and not force:
-            cached = np.load(CACHE)
+        if self._cache.exists() and not force:
+            cached = np.load(self._cache)
             if len(cached) == len(self.chunks):
                 self.vectors = cached
                 return self
         texts = [f"{c['section']} {c['text']}" for c in self.chunks]
         self.vectors = np.asarray(self._encode(texts, "passage"), dtype=np.float32)
-        np.save(CACHE, self.vectors)
+        np.save(self._cache, self.vectors)
         return self
 
     def search(self, query, k=5):

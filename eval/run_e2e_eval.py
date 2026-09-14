@@ -13,6 +13,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
+
+import domain  # noqa: E402
 sys.path.insert(0, str(ROOT / "eval"))
 
 from llm import get_backend  # noqa: E402
@@ -29,7 +31,7 @@ def is_refusal(text):
 
 
 def main():
-    tests = [json.loads(l) for l in (ROOT / "eval/testset.jsonl").open(encoding="utf-8")]
+    tests = [json.loads(l) for l in (domain.eval_dir() / "testset.jsonl").open(encoding="utf-8")]
     retriever = HybridRetriever()
     backend = get_backend("local")
 
@@ -61,7 +63,7 @@ def main():
         if n % 25 == 0:
             print(f"  {n}/{len(tests)}  ({time.time() - started:.0f}s)", flush=True)
 
-    out = ROOT / "eval" / "e2e_results.json"
+    out = domain.eval_dir() / "e2e_results.json"
     out.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
 
     def rate(pred, pool=rows):

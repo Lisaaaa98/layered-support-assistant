@@ -11,13 +11,13 @@ wheels/
 
 # Source documents are DBS's own published material: fetched, not redistributed.
 # Recreate with: uv run python scripts/fetch_sources.py
-data/raw/
+data/*/raw/
 
 # Parsed chunks hold the full text of DBS's documents. Excluding the source
 # files while committing their parsed contents would be the same redistribution
 # by another name. Recreate with fetch_sources.py + src/ingest.py.
-data/processed/chunks.jsonl
+data/*/processed/chunks.jsonl
 
 # Regenerable build artefacts
-data/processed/embeddings.npy
+data/*/processed/embeddings.npy
 .DS_Store

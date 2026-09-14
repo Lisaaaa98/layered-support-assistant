@@ -14,35 +14,38 @@ lookup, never the reverse.
 import re
 from dataclasses import dataclass, field
 
+import domain
+
 # Products the knowledge base actually covers.
-KNOWN_CARDS = {"altitude": "DBS Altitude Card",
-               "yuu": "DBS yuu Card",
-               "vantage": "DBS Vantage Visa Infinite Card"}
+# Product names, competitors and out-of-scope products come from the active
+# domain's config; the routing logic below is industry-independent.
+def known_products():
+    return domain.known_products()
 
-OTHER_BANKS = r"\b(ocbc|uob|citibank|citi|standard chartered|maybank|hsbc|trust bank|gxs)\b"
 
-NON_CARD_PRODUCTS = (r"home loan|mortgage|savings account|fixed deposit|时间存款|定期存款|"
-                     r"insurance|unit trust|investment account|房贷|房屋贷款|储蓄账户|保险|理财")
+def competitors():
+    return domain.config()["competitors"]
 
-# "DBS <something> card" / "<something> 卡" where <something> names a product.
-CARD_PATTERNS = [
-    re.compile(r"\bdbs\s+([a-z][a-z'\s]{1,24}?)\s+(?:card|cards)\b", re.I),
-    re.compile(r"\bdbs\s+([a-z][a-z'\s]{1,24}?)\s*卡"),
-    re.compile(r"([A-Za-z][A-Za-z'\s]{1,24}?)\s*卡(?:的|片)?"),
-]
+
+def out_of_scope_products():
+    return domain.config()["out_of_scope_products"]
+
+def product_patterns():
+    return domain.product_patterns()
+
 
 # Asking what the rules say about an incident is a policy question, not an
 # incident report. "If my card is stolen, how much am I liable for?" must be
-# answered from the agreement; "My card was stolen" must reach a human.
+# answered from the terms; "My card was stolen" must reach a human.
 POLICY_QUESTION = (r"\bliab|\bresponsib|how much am i|what happens if|under what circumstances|"
                    r"责任|承担|上限|条款|规定|会怎样|有什么后果")
 HYPOTHETICAL = r"^\s*if\b|\bif\s+(?:my|i|the|you)\b|如果|假如|万一|要是"
 
-# Words that reveal a greedy card-name match swallowed a clause rather than a
-# product name.
-NOT_A_CARD_NAME = {"the", "of", "to", "and", "or", "for", "change", "terms", "use",
-                   "my", "a", "an", "this", "that", "your", "our", "credit", "debit",
-                   "new", "any", "all", "same", "other", "another"}
+# Words that reveal a greedy product-name match swallowed a clause rather than
+# a product name. Used when the domain config does not supply its own list.
+NOT_A_PRODUCT_NAME_FALLBACK = {"the", "of", "to", "and", "or", "for", "change", "terms", "use",
+                               "my", "a", "an", "this", "that", "your", "our", "credit", "debit",
+                               "new", "any", "all", "same", "other", "another"}
 
 RISK_PATTERNS = [
     ("fraud", r"did not make|didn'?t make|unauthoris|unauthoriz|fraud|hacked|identity theft|"
@@ -61,16 +64,23 @@ RISK_PATTERNS = [
     ("card_blocked", r"\bblocked?\b|\bfrozen\b|被\s*(?:block|冻结|封|停)|刷不了|用不了|不能用"),
 ]
 
-# Asking what one *should* do is advice, regardless of politeness.
-ADVICE_PATTERNS = (r"should i\b|worth (?:paying|it)\b|which card should\b|better (?:to|option)\b|"
-                   r"help me improve my credit|maximise my (?:investment|return)|"
-                   r"该不该|应不应该|值不值得|划算|建议我|你觉得我|帮我提高.{0,6}(?:信用|评分)")
+def advice_patterns():
+    """What counts as advice the assistant must not give.
+
+    This is the one risk rule that genuinely differs between industries rather
+    than merely being worded differently. A bank must not tell a customer
+    whether to take a cash advance. A telco recommending a plan is doing its
+    job, so the same pattern that protects the first would cripple the second.
+    """
+    return domain.config()["advice_patterns"]
+
 
 # An instruction, not a question: the verb leads the sentence. "How do I
-# cancel my card" asks for a procedure and stays a knowledge question; "Cancel
-# my card now" asks the assistant to act, and it must not.
+# cancel my plan" asks for a procedure and stays a knowledge question;
+# "Cancel my plan now" asks the assistant to act, and it must not.
 IMPERATIVE_ACTION = (r"^\s*(please\s+)?(increase|decrease|lower|raise|cancel|close|terminate|waive|"
-                     r"apply|redeem|change|update|set up|setup|pay|convert|block|freeze|activate)\b")
+                     r"apply|redeem|change|update|set up|setup|pay|convert|block|freeze|activate|"
+                     r"suspend|port|switch|upgrade|downgrade)\b")
 TRANSACTION_PATTERNS = (r"帮我|替我|给我(?:办|申请|调|改|停)|请(?:帮|为)我|"
                         r"我要(?:申请|注销|取消|调整|办|停|改)|把我的[\w\s]{0,10}(改|调|停|取消)")
 
@@ -93,25 +103,30 @@ class Route:
     blocked_entity: str = None
 
 
+def not_a_product_name():
+    return set(domain.config().get("not_a_product_name") or NOT_A_PRODUCT_NAME_FALLBACK)
+
+
 def find_cards(text):
     """Card names mentioned, split into known and unknown."""
     known, unknown = [], []
     low = text.lower()
-    for key in KNOWN_CARDS:
+    catalogue = known_products()
+    for key in catalogue:
         if key in low:
             known.append(key)
-    for pattern in CARD_PATTERNS:
+    for pattern in product_patterns():
         for match in pattern.finditer(text):
             name = match.group(1).strip().lower()
             name = re.sub(r"^(the|a|an|my|this)\s+", "", name)
-            if not name or name in KNOWN_CARDS or name in {"credit", "debit", "the", "my"}:
+            if not name or name in catalogue or name in {"credit", "debit", "the", "my"}:
                 continue
-            if any(k in name for k in KNOWN_CARDS):
+            if any(k in name for k in catalogue):
                 continue
             # A real product name is one or two distinctive words; anything
             # containing function words came from a greedy match over a clause.
             words = name.split()
-            if len(words) > 3 or any(w in NOT_A_CARD_NAME for w in words):
+            if len(words) > 3 or any(w in not_a_product_name() for w in words):
                 continue
             unknown.append(name)
     return known, unknown
@@ -133,24 +148,29 @@ def route(question):
                 break
             return Route("risk", "escalate", f"risk signal: {kind}")
 
-    # 2. Advice is refused even when the customer is only asking an opinion.
-    if re.search(ADVICE_PATTERNS, low):
-        return Route("risk", "refuse", "financial advice requested")
-
-    # 3. Third-party or third-bank data.
+    # 2. Third-party account data.
     if re.search(r"my (?:husband|wife|mother|father|son|daughter|friend|neighbour|neighbor)|"
                  r"我(?:先生|太太|老公|老婆|妈妈|爸爸|儿子|女儿|朋友)", low):
         return Route("risk", "refuse", "third-party account data")
 
-    other = re.search(OTHER_BANKS, low)
+    other = re.search(competitors(), low)
     if other:
-        return Route("knowledge", "refuse", "another bank's product",
+        return Route("knowledge", "refuse", "another provider's product",
                      blocked_entity=other.group(0))
 
-    non_card = re.search(NON_CARD_PRODUCTS, low)
+    non_card = re.search(out_of_scope_products(), low)
     if non_card:
-        return Route("knowledge", "refuse", "outside credit cards",
+        return Route("knowledge", "refuse", "out of scope for this service",
                      blocked_entity=non_card.group(0))
+
+    # Advice is checked after scope, so a question about a product this
+    # service does not cover is declined for that reason rather than
+    # mislabelled as a request for advice.
+    # 2. Advice is refused even when the customer is only asking an opinion.
+    if re.search(advice_patterns(), low):
+        return Route("risk", "refuse", "financial advice requested")
+
+
 
     # 4. A card the knowledge base does not cover. Caught here rather than
     #    left to the model, which was observed answering a Live Fresh question

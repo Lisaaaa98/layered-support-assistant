@@ -18,6 +18,7 @@ import gradio as gr
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "src"))
 
+import domain  # noqa: E402
 from accounts import generate  # noqa: E402
 from llm import get_backend  # noqa: E402
 from pipeline import answer, answer_without_retrieval  # noqa: E402
@@ -98,7 +99,7 @@ def phrase(reason):
 
 def load_metrics():
     """Headline numbers read from the latest evaluation run, never typed in."""
-    path = ROOT / "eval" / "e2e_results.json"
+    path = domain.eval_dir() / "e2e_results.json"
     if not path.exists():
         return None
     rows = json.loads(path.read_text(encoding="utf-8"))

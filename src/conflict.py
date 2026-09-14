@@ -13,7 +13,7 @@ it is not, are out of scope and recorded in docs/findings.md as a known limit.
 import re
 from dataclasses import dataclass, field
 
-from scopes import TXN_PATTERNS
+from scopes import txn_patterns
 
 # Value patterns, each mapped to a comparable unit.
 PATTERNS = [
@@ -97,7 +97,7 @@ class Claim:
         text = self.chunk["text"]
         lo = max(0, self.pos - SCOPE_WINDOW)
         blob = f"{self.chunk['section']} {text[lo:self.pos + SCOPE_WINDOW]}".lower()
-        hits = frozenset(n for n, pat in TXN_PATTERNS if re.search(pat, blob))
+        hits = frozenset(n for n, pat in txn_patterns() if re.search(pat, blob))
         return hits or frozenset({"general"})
 
 
@@ -143,7 +143,7 @@ def same_fact(a, b):
     # network + 2.25% bank + 3.25% total is arithmetic, not disagreement).
     if a.chunk["doc_id"] == b.chunk["doc_id"]:
         return False
-    cards_a, cards_b = set(a.chunk["card_scope"]), set(b.chunk["card_scope"])
+    cards_a, cards_b = set(a.chunk["product_scope"]), set(b.chunk["product_scope"])
     if not (cards_a & cards_b or "all" in cards_a or "all" in cards_b):
         return False
     if a.txn_scope != b.txn_scope:

@@ -73,7 +73,7 @@ def _claim_like(value, unit, before, section=""):
     so answers and sources are compared by the same notion of 'same fact'."""
     from conflict import Claim
 
-    stub = {"section": section, "text": "", "card_scope": ["all"],
+    stub = {"section": section, "text": "", "product_scope": ["all"],
             "txn_scope": ["general"], "doc_id": "answer", "chunk_id": "answer",
             "date_confidence": "stated", "authority": 9, "effective_date": None}
     return Claim(value=value, unit=unit, raw=str(value), before=before,

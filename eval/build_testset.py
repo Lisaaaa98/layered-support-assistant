@@ -16,7 +16,12 @@ re-labelling at 150 cases:
                       cases would dilute the handful that matter.
 """
 import json
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+
+import domain  # noqa: E402
 
 CASES = []
 
@@ -510,18 +515,18 @@ def validate(cases, chunks):
 
 
 def main():
-    root = Path(__file__).resolve().parent.parent
-    chunks = [json.loads(l) for l in (root / "data/processed/chunks.jsonl").open(encoding="utf-8")]
+    chunks = [json.loads(l) for l in domain.chunks_path().open(encoding="utf-8")]
     apply_labels(CASES)
     problems = validate(CASES, chunks)
 
-    out = root / "eval" / "testset.jsonl"
+    out = domain.eval_dir() / "testset.jsonl"
+    out.parent.mkdir(parents=True, exist_ok=True)
     with out.open("w", encoding="utf-8") as f:
         for c in CASES:
             f.write(json.dumps(c, ensure_ascii=False) + "\n")
 
     from collections import Counter
-    print(f"共 {len(CASES)} 条 -> {out.relative_to(root)}\n")
+    print(f"共 {len(CASES)} 条 -> {out}\n")
     print("层级      ", dict(Counter(c["layer"] for c in CASES)))
     print("语言      ", dict(Counter(c["lang"] for c in CASES)))
     print("严重性    ", dict(Counter(c["severity"] for c in CASES)))

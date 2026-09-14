@@ -5,18 +5,20 @@ Three parsers are needed because the source pages differ:
   static   - server-rendered support pages, content sits in the HTML
   nextdata - Next.js pages where the body lives in the __NEXT_DATA__ JSON blob
 """
+import html
 import json
 import re
 from pathlib import Path
 
+import domain
 import pdfplumber
 from bs4 import BeautifulSoup
 
-from scopes import TXN_PATTERNS
+from scopes import txn_patterns
 
 ROOT = Path(__file__).resolve().parent.parent
-RAW = ROOT / "data" / "raw"
-OUT = ROOT / "data" / "processed"
+RAW = None  # resolved per domain at call time
+OUT = None
 
 MAX_CHARS = 1800  # split threshold; keeps a clause retrievable without losing context
 
@@ -36,14 +38,12 @@ def find_effective_date(text):
     return m.group(1) if m else None
 
 
-CARD_KEYS = {"altitude": "altitude", "yuu": "yuu", "vantage": "vantage"}
-
-def infer_card_scope(doc_id):
+def infer_product_scope(doc_id):
     """Which card a chunk speaks for. Product pages are card-specific;
     agreements and the fee table apply across the portfolio."""
-    for key, name in CARD_KEYS.items():
+    for key in domain.known_products():
         if key in doc_id:
-            return [name]
+            return [key]
     return ["all"]
 
 
@@ -54,7 +54,7 @@ def infer_txn_scope(section, text):
     pair: 27.8% retail and 28.5% cash advance are both correct.
     """
     blob = f"{section} {text[:600]}".lower()
-    hits = [name for name, pat in TXN_PATTERNS if re.search(pat, blob)]
+    hits = [name for name, pat in txn_patterns() if re.search(pat, blob)]
     return hits or ["general"]
 
 
@@ -170,6 +170,74 @@ def split_by_headings(html, fallback_section):
     return sections or [(fallback_section, soup.get_text(" ", strip=True))]
 
 
+def _chunks_from_json(blobs, fallback_section):
+    """Turn rich-text strings found in embedded JSON into chunks.
+
+    Shared by the two client-rendered sites in this project. Both hide their
+    prose in JSON and both store it as HTML, so once the JSON is located the
+    rest of the work is identical.
+    """
+    found = []
+
+    def walk(node, path_str=""):
+        if isinstance(node, dict):
+            for k, v in node.items():
+                walk(v, f"{path_str}.{k}")
+        elif isinstance(node, list):
+            for i, v in enumerate(node):
+                walk(v, f"{path_str}[{i}]")
+        elif isinstance(node, str):
+            plain = re.sub(r"<[^>]+>", " ", node)
+            plain = re.sub(r"\s+", " ", plain).strip()
+            if len(plain) > 120 and " " in plain:
+                found.append((path_str.split(".")[-1] or fallback_section, node))
+
+    for blob in blobs:
+        walk(blob)
+
+    seen, chunks = set(), []
+    for field, raw_html in found:
+        for section, text in split_by_headings(raw_html, field):
+            text = re.sub(r"[ \t]+", " ", text).strip()
+            if text in seen or len(text) < 40:
+                continue
+            seen.add(text)
+            chunks.extend(split_long(text, section))
+    plain_all = " ".join(re.sub(r"<[^>]+>", " ", h) for _, h in found)
+    return chunks, find_effective_date(plain_all)
+
+
+def parse_aem(path):
+    """Pages that keep their prose in JSON inside element attributes.
+
+    Singtel's support articles render client-side. The served HTML yields only
+    a few hundred characters of visible text, and the charges a customer
+    actually asks about are not among them: the late-payment article shows
+    none of the two fees it exists to explain.
+
+    The content sits in `datamodel` attributes on custom elements, JSON-encoded
+    and HTML-escaped. Unescaping the whole page and reading the text back is
+    the obvious shortcut and a bad one, because the surrounding configuration
+    unescapes too and ends up interleaved with the prose. Parsing the
+    attributes as JSON keeps the copy and leaves the configuration behind.
+    """
+    soup = BeautifulSoup(path.read_text(encoding="utf-8", errors="ignore"), "lxml")
+    blobs = []
+    for element in soup.find_all(True):
+        for value in (element.attrs or {}).values():
+            if isinstance(value, str) and value.strip().startswith(("{", "[")) and len(value) > 200:
+                try:
+                    blobs.append(json.loads(value))
+                except ValueError:
+                    continue
+
+    title = soup.title.get_text(strip=True) if soup.title else path.stem
+    chunks, eff = _chunks_from_json(blobs, title)
+    if chunks:
+        return chunks, eff
+    return parse_static(path)
+
+
 def parse_nextdata(path):
     """Walk the __NEXT_DATA__ JSON and keep the prose-bearing string fields."""
     soup = BeautifulSoup(path.read_text(encoding="utf-8", errors="ignore"), "lxml")
@@ -207,21 +275,23 @@ def parse_nextdata(path):
     return chunks, find_effective_date(plain_all)
 
 
-PARSERS = {"pdf": parse_pdf, "static": parse_static, "nextdata": parse_nextdata}
+PARSERS = {"pdf": parse_pdf, "static": parse_static, "nextdata": parse_nextdata,
+           "aem": parse_aem}
 
 
 def main():
-    manifest = json.loads((ROOT / "data" / "sources.json").read_text())
+    manifest = json.loads(domain.sources_path().read_text(encoding="utf-8"))
     retrieved_at = manifest["retrieved_at"]
-    OUT.mkdir(parents=True, exist_ok=True)
+    out_dir = domain.processed_dir()
+    out_dir.mkdir(parents=True, exist_ok=True)
     all_chunks = []
 
     for doc in manifest["docs"]:
-        path = RAW / doc["file"]
+        path = domain.raw_dir() / doc["file"]
         chunks, stated = PARSERS[doc["parser"]](path)
         doc_id = path.stem
         eff_date, confidence = date_info(stated, doc["freshness"], retrieved_at)
-        card_scope = infer_card_scope(doc_id)
+        product_scope = infer_product_scope(doc_id)
 
         kept = [(sec, txt) for sec, txt in chunks if len(txt) >= MIN_CHARS]
         dropped = len(chunks) - len(kept)
@@ -241,7 +311,7 @@ def main():
                 "authority": doc["authority"],
                 "effective_date": eff_date,
                 "date_confidence": confidence,
-                "card_scope": card_scope,
+                "product_scope": product_scope,
                 "txn_scope": infer_txn_scope(section, text),
                 "section": section[:120],
                 "text": f"{title} — {section}\n{text}" if title not in text else text,
@@ -250,7 +320,7 @@ def main():
         print(f"  {doc['file']:<28} {len(kept):>3} chunks  auth={doc['authority']} "
               f"date={eff_date or '-'} ({confidence}){note}")
 
-    out_file = OUT / "chunks.jsonl"
+    out_file = out_dir / "chunks.jsonl"
     with out_file.open("w", encoding="utf-8") as f:
         for c in all_chunks:
             f.write(json.dumps(c, ensure_ascii=False) + "\n")

@@ -12,6 +12,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+
+import domain  # noqa: E402
 from conflict import resolve_context  # noqa: E402
 from retrieve import Retriever  # noqa: E402
 
@@ -20,7 +22,7 @@ TOP_K = 6
 
 
 def main():
-    tests = [json.loads(l) for l in (ROOT / "eval" / "testset.jsonl").open(encoding="utf-8")]
+    tests = [json.loads(l) for l in (domain.eval_dir() / "testset.jsonl").open(encoding="utf-8")]
     retriever = Retriever()
     rows, leaks = [], []
     recall_hit = recall_total = supp_ok = supp_total = 0
@@ -82,7 +84,7 @@ def main():
         "leaks": leaks,
         "rows": rows,
     }
-    out = ROOT / "eval" / "baseline_retrieval.json"
+    out = domain.eval_dir() / "baseline_retrieval.json"
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print("Retrieval in isolation: lexical only, before routing and card-scope")

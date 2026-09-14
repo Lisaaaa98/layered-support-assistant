@@ -1,0 +1,96 @@
+{
+  "retrieved_at": "2026-09-14",
+  "note": "All documents are publicly accessible pages from singtel.com. No customer data.",
+  "docs": [
+    {
+      "file": "sim-only-plans.html",
+      "url": "https://www.singtel.com/personal/mobile/plans/sim-only",
+      "doc_type": "plan",
+      "parser": "static",
+      "title": "Singtel SIM Only plans (5G+ Enhanced and Priority)",
+      "authority": 4,
+      "freshness": "live"
+    },
+    {
+      "file": "postpaid-plans.html",
+      "url": "https://www.singtel.com/personal/products-services/mobile/postpaid-plans",
+      "doc_type": "plan",
+      "parser": "static",
+      "title": "Singtel postpaid mobile plans",
+      "authority": 4,
+      "freshness": "live"
+    },
+    {
+      "file": "roaming.html",
+      "url": "https://www.singtel.com/personal/products-services/mobile/roaming",
+      "doc_type": "roaming",
+      "parser": "static",
+      "title": "Singtel overseas roaming plans and passes",
+      "authority": 4,
+      "freshness": "live"
+    },
+    {
+      "file": "prepaid-data-plans.html",
+      "url": "https://www.singtel.com/personal/products-services/mobile/prepaid-plans/data-plans",
+      "doc_type": "prepaid",
+      "parser": "static",
+      "title": "hi! by Singtel prepaid data plans",
+      "authority": 4,
+      "freshness": "live"
+    },
+    {
+      "file": "hi-prepaid.html",
+      "url": "https://www.singtel.com/personal/products-services/mobile/hi",
+      "doc_type": "prepaid",
+      "parser": "static",
+      "title": "hi! by Singtel prepaid plans",
+      "authority": 4,
+      "freshness": "live"
+    },
+    {
+      "file": "late-payment-fees.html",
+      "url": "https://www.singtel.com/personal/support/billing/reminder-charges-or-late-payment-fees",
+      "doc_type": "support",
+      "parser": "aem",
+      "title": "Singtel reminder charges and late payment fees",
+      "authority": 3,
+      "freshness": "live"
+    },
+    {
+      "file": "service-suspension.html",
+      "url": "https://www.singtel.com/personal/support/billing/service-suspended-due-to-late-payment",
+      "doc_type": "support",
+      "parser": "aem",
+      "title": "Singtel service suspension for late payment",
+      "authority": 3,
+      "freshness": "live"
+    },
+    {
+      "file": "check-data-usage.html",
+      "url": "https://www.singtel.com/personal/support/account-billing/check-data-usage",
+      "doc_type": "support",
+      "parser": "aem",
+      "title": "Singtel how to check data usage",
+      "authority": 3,
+      "freshness": "live"
+    },
+    {
+      "file": "bill-charges.html",
+      "url": "https://www.singtel.com/personal/support/billing/view-detailed-bill-charges",
+      "doc_type": "support",
+      "parser": "aem",
+      "title": "Singtel viewing detailed bill charges",
+      "authority": 3,
+      "freshness": "live"
+    },
+    {
+      "file": "account-billing.html",
+      "url": "https://www.singtel.com/personal/support/account-billing",
+      "doc_type": "support",
+      "parser": "aem",
+      "title": "Singtel account and billing support",
+      "authority": 3,
+      "freshness": "live"
+    }
+  ]
+}

@@ -9,12 +9,13 @@ import json
 import re
 from pathlib import Path
 
+import domain
 from rank_bm25 import BM25Okapi
 
 from query import expand
 
 ROOT = Path(__file__).resolve().parent.parent
-CHUNKS = ROOT / "data" / "processed" / "chunks.jsonl"
+
 
 # Below this, BM25 is matching stopwords rather than substance. Treated as a
 # retrieval miss so the caller can refuse instead of improvising.
@@ -28,7 +29,8 @@ def tokenize(text):
 
 
 class Retriever:
-    def __init__(self, path=CHUNKS):
+    def __init__(self, path=None):
+        path = path or domain.chunks_path()
         self.chunks = [json.loads(line) for line in path.open(encoding="utf-8")]
         # Index the section heading alongside the body: headings carry the
         # topic word ("late payment charge") that the body often omits.
@@ -48,7 +50,7 @@ class Retriever:
             return hits
         wanted = set(cards)
         return [h for h in hits
-                if h["card_scope"] == ["all"] or set(h["card_scope"]) & wanted]
+                if h["product_scope"] == ["all"] or set(h["product_scope"]) & wanted]
 
     def search(self, query, k=5, min_score=MIN_SCORE, cards=None):
         """Return the top-k chunks, or nothing at all.

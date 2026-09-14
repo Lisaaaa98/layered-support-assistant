@@ -1,0 +1,125 @@
+{
+  "id": "bank",
+  "label": "DBS credit cards",
+  "product_word": {
+    "en": "card",
+    "zh": "卡"
+  },
+  "known_products": {
+    "altitude": "DBS Altitude Card",
+    "yuu": "DBS yuu Card",
+    "vantage": "DBS Vantage Visa Infinite Card"
+  },
+  "competitors": "\\b(ocbc|uob|citibank|citi|standard chartered|maybank|hsbc|trust bank|gxs)\\b",
+  "out_of_scope_products": "home loan|mortgage|savings account|fixed deposit|时间存款|定期存款|insurance|unit trust|investment account|房贷|房屋贷款|储蓄账户|保险|理财",
+  "product_patterns": [
+    "\\bdbs\\s+([a-z][a-z'\\s]{1,24}?)\\s+(?:card|cards)\\b",
+    "\\bdbs\\s+([a-z][a-z'\\s]{1,24}?)\\s*卡",
+    "([A-Za-z][A-Za-z'\\s]{1,24}?)\\s*卡(?:的|片)?"
+  ],
+  "product_pattern_flags": [
+    "i",
+    "",
+    ""
+  ],
+  "not_a_product_name": [
+    "a",
+    "all",
+    "an",
+    "and",
+    "another",
+    "any",
+    "change",
+    "credit",
+    "debit",
+    "for",
+    "my",
+    "new",
+    "of",
+    "or",
+    "other",
+    "our",
+    "same",
+    "terms",
+    "that",
+    "the",
+    "this",
+    "to",
+    "use",
+    "your"
+  ],
+  "txn_patterns": [
+    [
+      "cash_advance",
+      "cash advance|cash withdrawal"
+    ],
+    [
+      "sgd_processed_outside",
+      "processed outside singapore|charged in singapore dollar"
+    ],
+    [
+      "foreign_currency",
+      "foreign currency|dynamic currency conversion|overseas"
+    ],
+    [
+      "balance_transfer",
+      "balance transfer"
+    ],
+    [
+      "instalment",
+      "instalment|installment"
+    ]
+  ],
+  "glossary": {
+    "年费": "annual fee",
+    "免年费": "annual fee waiver",
+    "年费豁免": "annual fee waiver",
+    "豁免": "waiver waive",
+    "滞纳金": "late payment charge",
+    "迟交": "late payment overdue",
+    "晚交": "late payment overdue",
+    "罚款": "charge penalty fee",
+    "罚": "charge fee",
+    "补办": "replacement card lost",
+    "丢了": "lost card",
+    "被偷": "stolen card",
+    "逾期费": "late payment charge",
+    "逾期": "late payment overdue",
+    "利率": "interest rate",
+    "财务费用": "finance charge",
+    "现金预支": "cash advance",
+    "预借现金": "cash advance",
+    "取现": "cash advance withdrawal",
+    "最低还款": "minimum payment",
+    "还款": "payment repayment",
+    "账单": "statement",
+    "还款日": "payment due date",
+    "到期日": "payment due date",
+    "信用额度": "credit limit",
+    "额度": "credit limit",
+    "分期": "instalment payment plan",
+    "积分": "DBS Points",
+    "里程": "miles",
+    "外币": "foreign currency",
+    "外汇": "foreign currency",
+    "手续费": "fee administrative fee",
+    "挂失": "lost card",
+    "盗刷": "unauthorised transaction",
+    "补卡": "replacement card",
+    "收入要求": "minimum income",
+    "最低收入": "minimum income",
+    "申请": "apply eligibility",
+    "信用卡": "credit card",
+    "附属卡": "supplementary card",
+    "主卡": "principal card",
+    "兑换": "conversion redeem",
+    "境外": "overseas outside singapore"
+  },
+  "authority": {
+    "fees": 4,
+    "support": 3,
+    "agreement": 3,
+    "card_product": 2
+  },
+  "advice_patterns": "should i\\b|worth (?:paying|it)\\b|which card should\\b|better (?:to|option)\\b|help me improve my credit|maximise my (?:investment|return)|该不该|应不应该|值不值得|划算|建议我|你觉得我|帮我提高.{0,6}(?:信用|评分)"
+}

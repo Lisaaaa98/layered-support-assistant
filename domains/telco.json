@@ -1,0 +1,134 @@
+{
+  "id": "telco",
+  "label": "Singtel consumer mobile",
+  "product_word": {
+    "en": "plan",
+    "zh": "套餐"
+  },
+  "known_products": {
+    "enhanced lite": "Singtel 5G+ Enhanced Lite SIM Only",
+    "enhanced core": "Singtel 5G+ Enhanced Core SIM Only",
+    "priority plus": "Singtel 5G+ Priority Plus SIM Only",
+    "priority ultra": "Singtel 5G+ Priority Ultra SIM Only",
+    "seniors": "Singtel Seniors SIM Only",
+    "hi!": "hi! by Singtel prepaid"
+  },
+  "competitors": "\\b(starhub|m1\\b|simba|circles\\.life|circles life|myrepublic|zero1|redone)\\b",
+  "out_of_scope_products": "broadband|fibre|fiber|wifi|singtel tv|cast\\.sg|insurance|paylater|credit card|business plan|corporate|宽带|光纤|电视|保险|信用卡|企业",
+  "product_patterns": [
+    "\\bsingtel\\s+([a-z][a-z'!\\s]{1,24}?)\\s+(?:plan|plans)\\b",
+    "\\b([a-z][a-z'!\\s]{1,24}?)\\s+sim\\s*only\\b",
+    "([A-Za-z][A-Za-z'!\\s]{1,24}?)\\s*套餐"
+  ],
+  "product_pattern_flags": [
+    "i",
+    "i",
+    ""
+  ],
+  "not_a_product_name": [
+    "the",
+    "of",
+    "to",
+    "and",
+    "or",
+    "for",
+    "change",
+    "terms",
+    "use",
+    "my",
+    "a",
+    "an",
+    "this",
+    "that",
+    "your",
+    "our",
+    "new",
+    "any",
+    "all",
+    "same",
+    "other",
+    "another",
+    "mobile",
+    "best",
+    "cheap",
+    "cheapest",
+    "good",
+    "which",
+    "what"
+  ],
+  "txn_patterns": [
+    [
+      "roaming",
+      "roaming|roam|overseas|abroad|malaysia|asia pass|worldwide|漫游|境外|出国"
+    ],
+    [
+      "local_data",
+      "local data|本地流量|local 5g|本地数据"
+    ],
+    [
+      "voice_sms",
+      "talktime|\\bmins\\b|minutes|\\bsms\\b|通话|短信"
+    ],
+    [
+      "prepaid",
+      "prepaid|hi! by singtel|预付|储值"
+    ],
+    [
+      "late_payment",
+      "late payment|reminder notice|final notice|overdue|逾期|催缴|欠费"
+    ]
+  ],
+  "glossary": {
+    "套餐": "plan",
+    "月费": "monthly price plan",
+    "资费": "price plan",
+    "流量": "data",
+    "本地流量": "local data",
+    "数据": "data",
+    "漫游": "roaming",
+    "漫游流量": "roaming data",
+    "出国": "overseas roaming",
+    "境外": "overseas roaming",
+    "通话": "talktime mins",
+    "分钟": "mins talktime",
+    "短信": "SMS",
+    "预付": "prepaid",
+    "储值": "prepaid top up",
+    "后付": "postpaid",
+    "合约": "contract",
+    "违约金": "early termination charge",
+    "解约": "terminate contract",
+    "账单": "bill statement",
+    "话费": "bill charges",
+    "逾期": "late payment overdue",
+    "催缴": "reminder notice charge",
+    "滞纳金": "late payment fee",
+    "停机": "service suspension",
+    "复机": "resume service",
+    "补卡": "SIM replacement",
+    "换卡": "SIM replacement",
+    "携号转网": "port in number",
+    "转网": "port in",
+    "开通": "activation",
+    "加购": "add-on",
+    "无限": "unlimited",
+    "长者": "seniors",
+    "学生": "student",
+    "来电显示": "caller ID",
+    "国际长途": "IDD international call",
+    "用量": "data usage",
+    "超额": "excess data charges",
+    "网速": "speed",
+    "覆盖": "coverage",
+    "查用量": "check data usage",
+    "电子账单": "eBill",
+    "自动扣款": "GIRO recurring payment"
+  },
+  "authority": {
+    "plan": 4,
+    "roaming": 4,
+    "prepaid": 4,
+    "support": 3
+  },
+  "advice_patterns": "should i (?:borrow|take a loan|finance|invest)|worth financing\\b|help me improve my credit|credit score|该不该(?:借|贷|投资)|信用评分|帮我提高.{0,6}(?:信用|评分)"
+}
