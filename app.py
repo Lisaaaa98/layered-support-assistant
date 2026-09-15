@@ -10,6 +10,7 @@ Run:  uv run python app.py   ->  http://127.0.0.1:7860
 """
 import html
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -28,13 +29,29 @@ RETRIEVER = HybridRetriever()
 BACKEND = get_backend("local")
 CUSTOMER = generate()["C100000"]
 
+UI = domain.config().get("ui", {})
+
+
+def _has_product_table():
+    try:
+        import plans
+
+        return plans.available()
+    except ImportError:
+        return False
+
+
+HAS_PRODUCT_TABLE = _has_product_table()
+
 STAGES = [
     ("router", "Routing & entity check",
      "Rules decide the layer; risk, transactions, account and out-of-scope questions stop here"),
     ("accounts", "Account record",
      "Rendered from templates once authenticated, never through the model"),
+    ("product table", "Product table",
+     "Plan pricing, allowances and fees answered from parsed fields, never through the model"),
     ("retrieval", "Retrieval",
-     "BM25 + glossary + multilingual dense, filtered to the card in question"),
+     "BM25 + glossary + multilingual dense, filtered to the product in question"),
     ("conflict", "Conflict adjudication",
      "When sources disagree on a figure, decide by currency and authority; withhold the stale one"),
     ("model", "Local model", "Qwen2.5-3B · MLX · answers only from the sources given"),
@@ -97,25 +114,59 @@ def phrase(reason):
     return REASON_LABEL.get(reason, reason)
 
 
+def _latest_rows():
+    """Rows from whichever evaluation this domain has run.
+
+    The bank domain has an end-to-end run; telco was measured with the policy
+    sweep, which stores the same per-case rows under the profile it used.
+    """
+    e2e = domain.eval_dir() / "e2e_results.json"
+    if e2e.exists():
+        return json.loads(e2e.read_text(encoding="utf-8")), None
+    sweeps = sorted(domain.eval_dir().glob("policy_sweep*.json"),
+                    key=lambda p: p.stat().st_mtime, reverse=True)
+    for path in sweeps:
+        detail = json.loads(path.read_text(encoding="utf-8")).get("detail", {})
+        for profile in ("telco", "banking"):
+            if detail.get(profile):
+                return detail[profile], profile
+    return None, None
+
+
 def load_metrics():
     """Headline numbers read from the latest evaluation run, never typed in."""
-    path = domain.eval_dir() / "e2e_results.json"
-    if not path.exists():
+    rows, profile = _latest_rows()
+    if not rows:
         return None
-    rows = json.loads(path.read_text(encoding="utf-8"))
     answered = [r for r in rows if r["answered"]]
     scoreable = [r for r in answered if r["facts_ok"] is not None]
-    no_model = sum(1 for r in rows if r["backend"] in ("router", "retriever"))
+    # Layers that answer without a model: routing, the account record, the
+    # product table, and a retrieval miss that ends in a refusal.
+    without_model = ("router", "retriever", "accounts", "plans")
+    no_model = sum(1 for r in rows if r.get("backend", "") in without_model)
     return {
+        "profile": profile,
         "cases": len(rows),
         "critical_wrong": sum(1 for r in rows
                               if r["confidently_wrong"] and r["severity"] == "critical"),
         "all_wrong": sum(1 for r in rows if r["confidently_wrong"]),
         "facts": f"{sum(1 for r in scoreable if r['facts_ok'])}/{len(scoreable)}",
-        "cited": f"{sum(1 for r in answered if r['cited'])}/{len(answered)}",
+        # Citations are a requirement on answers the model composed from
+        # sources. A figure rendered from the product table cites the field it
+        # came from, not a passage, so counting it here would understate a
+        # requirement it was never under.
+        "cited": _cited(answered),
         "no_model": round(100 * no_model / len(rows)),
-        "refused": sum(1 for r in rows if r["wrongly_refused"]),
+        "refused": sum(1 for r in rows if r.get("wrongly_refused")
+                       or r.get("avoidable_handoff")),
     }
+
+
+def _cited(answered):
+    composed = [r for r in answered if r.get("backend") in (None, "local", "cloud", "extractive")]
+    if not composed or not any("cited" in r for r in composed):
+        return "—"
+    return f"{sum(1 for r in composed if r.get('cited'))}/{len(composed)}"
 
 
 def esc(text):
@@ -129,7 +180,7 @@ def metrics_html():
     tiles = [
         (m["critical_wrong"], "confidently wrong, critical", "headline metric, target 0"),
         (m["facts"], "answers factually right", "of answers with labelled facts"),
-        (m["cited"], "answers carrying a citation", ""),
+        (m["cited"], "model answers carrying a citation", "figures from fields cite the field"),
         (f"{m['no_model']}%", "requests never reached a model",
          "handled by routing or retrieval"),
         (m["refused"], "refused despite having evidence", "counter-metric; handed to an agent"),
@@ -140,8 +191,9 @@ def metrics_html():
         for v, l, s in tiles)
     return (f"<div class='strip'>{cells}</div>"
             f"<div class='foot'>{m['cases']} evaluation cases · local 3B model · "
-            f"{m['all_wrong']} confidently wrong overall (all non-critical) · "
-            f"figures read from eval/e2e_results.json</div>")
+            f"{m['all_wrong']} confidently wrong overall"
+            + (f" · policy profile: {m['profile']}" if m.get("profile") else "")
+            + " · figures read from the evaluation output, not typed in</div>")
 
 
 def stage_body(step, suppressed):
@@ -204,7 +256,13 @@ def trace_html(a):
             continue
         if key == "verifier" and "fallback" in reached:
             continue
+        # The product table only exists where the domain has one, and the
+        # layers after it are not reached when it answers.
+        if key == "product table" and not (HAS_PRODUCT_TABLE or key in reached):
+            continue
         if key in ("retrieval", "conflict", "model", "verifier") and "accounts" in reached:
+            continue
+        if key in ("retrieval", "conflict", "model", "verifier") and "product table" in reached:
             continue
         visible.append((key, name, blurb))
 
@@ -290,29 +348,15 @@ CSS = """
 @media (max-width:760px){.strip{grid-template-columns:repeat(2,minmax(0,1fr))}}
 """
 
-EXAMPLES = {
-    "Product terms": ["What is the annual fee for the DBS Vantage card?",
-                      "最低还款额怎么算?",
-                      "我的 annual fee 可以 waive 吗?"],
-    "Stale-figure traps": ["What is the prevailing interest rate on my credit card?",
-                           "How much is the cash advance fee?",
-                           "I read somewhere the cash advance fee is 6%. Is that right?"],
-    "Not in the knowledge base": ["DBS Live Fresh 卡的年费是多少?",
-                                  "What is the OCBC 365 card annual fee?"],
-    "Account (toggle authentication)": ["What is my current outstanding balance?",
-                                        "我的最低还款额是多少?"],
-    "Transactions and risk": ["Cancel my Altitude card now.",
-                              "我的卡被盗刷了!",
-                              "Should I take a cash advance to pay off my other card?"],
-}
+# Examples live in the domain config, so switching industries switches the
+# demo without touching this file.
+EXAMPLES = UI.get("examples", {})
 
-with gr.Blocks(title="DBS Card Assistant · layered demo") as demo:
+
+with gr.Blocks(title=UI.get("title", "Layered Support Assistant")) as demo:
     gr.HTML(
-        "<div class='hero'><h1>DBS credit card assistant · on-device, layered</h1>"
-        "<p>Product terms are DBS's own published documents; accounts are synthetic; the model "
-        "runs on this laptop. The column on the right shows which layers each question passed "
-        "through and what each one decided. Questions may be asked in English, Chinese or a "
-        "mix of both.</p></div>")
+        f"<div class='hero'><h1>{esc(UI.get('title', 'Layered support assistant'))}</h1>"
+        f"<p>{esc(UI.get('blurb', ''))}</p></div>")
     gr.HTML(metrics_html())
 
     with gr.Row(equal_height=False):
@@ -322,7 +366,8 @@ with gr.Blocks(title="DBS Card Assistant · layered demo") as demo:
                                   lines=2)
             with gr.Row():
                 authenticated = gr.Checkbox(
-                    label=f"Authenticated (test customer {CUSTOMER.customer_id})", value=False)
+                    label=UI.get("customer_label", "Authenticated (test customer {cid})")
+                    .format(cid=CUSTOMER.customer_id), value=False)
                 with_control = gr.Checkbox(label="Also show the no-retrieval control", value=False)
             send = gr.Button("Ask", variant="primary")
             for group, items in EXAMPLES.items():
@@ -336,4 +381,6 @@ with gr.Blocks(title="DBS Card Assistant · layered demo") as demo:
     question.submit(run, [question, authenticated, with_control], [answer_out, trace_out])
 
 if __name__ == "__main__":
-    demo.launch(server_name="127.0.0.1", server_port=7860, css=CSS)
+    # Port is configurable so the two domains can run side by side.
+    demo.launch(server_name="127.0.0.1",
+                server_port=int(os.environ.get("ASSISTANT_PORT", 7860)), css=CSS)

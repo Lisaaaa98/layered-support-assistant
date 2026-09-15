@@ -44,6 +44,9 @@ def score(tests, retriever, backend, policy):
         facts_ok = facts_satisfied(t["key_facts"], a.text) if answered else None
         rows.append({
             "id": t["id"], "severity": t["severity"], "action": a.action,
+            # Which layer produced this, so "never reached a model" can be
+            # counted rather than inferred.
+            "backend": a.backend, "cited": "[" in a.text,
             "answered": answered, "facts_ok": facts_ok,
             "confidently_wrong": bool(forbidden),
             "critical_wrong": bool(forbidden) and t["severity"] == "critical",

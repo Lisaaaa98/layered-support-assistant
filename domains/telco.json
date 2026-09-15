@@ -132,5 +132,39 @@
   },
   "advice_patterns": "should i (?:borrow|take a loan|finance|invest)|worth financing\\b|help me improve my credit|credit score|该不该(?:借|贷|投资)|信用评分|帮我提高.{0,6}(?:信用|评分)",
   "account_nouns_en": "bill|statement|due date|payment|usage|data left|remaining data|plan|contract|line|number|subscription|account|roaming status",
-  "account_nouns_zh": "账单|话费|欠费|用量|流量|剩余|套餐|合约|号码|线路|账户|开通|plan|bill|data|contract"
+  "account_nouns_zh": "账单|话费|欠费|用量|流量|剩余|套餐|合约|号码|线路|账户|开通|plan|bill|data|contract",
+  "ui": {
+    "title": "Singtel mobile assistant · on-device, layered",
+    "blurb": "Plan and roaming data comes from Singtel's public pages and is answered from parsed fields rather than by the model; accounts are synthetic. The column on the right shows which layers each question passed through. English, Chinese or a mix of both.",
+    "customer_label": "Authenticated (test customer {cid})",
+    "examples": {
+      "Plan facts (served from fields)": [
+        "How much is the Enhanced Lite SIM Only plan?",
+        "How much Malaysia roaming comes with Enhanced Core?",
+        "Priority Ultra 每月多少钱?"
+      ],
+      "Recommendation (allowed here, refused in banking)": [
+        "Which plan should I get if I use about 40GB a month?",
+        "我每个月常去马来西亚,哪个套餐合适?"
+      ],
+      "Charges customers conflate": [
+        "How much is the late payment fee?",
+        "催缴通知费和逾期费分别是多少?"
+      ],
+      "Roaming and prepaid": [
+        "How much is UnlimitedRoam Asia?",
+        "hi! 有长者套餐吗?",
+        "Do Priority customers get a roaming discount?"
+      ],
+      "Not covered / another provider": [
+        "What is the StarHub plan price?",
+        "Which broadband plan should I get?"
+      ],
+      "Account, transactions and risk": [
+        "我还剩多少流量?",
+        "Cancel my plan now.",
+        "My SIM card was stolen."
+      ]
+    }
+  }
 }

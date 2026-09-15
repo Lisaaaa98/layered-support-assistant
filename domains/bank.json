@@ -123,5 +123,35 @@
   },
   "advice_patterns": "should i\\b|worth (?:paying|it)\\b|which card should\\b|better (?:to|option)\\b|help me improve my credit|maximise my (?:investment|return)|该不该|应不应该|值不值得|划算|建议我|你觉得我|帮我提高.{0,6}(?:信用|评分)",
   "account_nouns_en": "balance|statement|bill|due date|payment|limit|points|account|transactions?|expiry|annual fee",
-  "account_nouns_zh": "账单|余额|额度|积分|账户|消费|还款|欠款|limit|balance|statement|points|payment"
+  "account_nouns_zh": "账单|余额|额度|积分|账户|消费|还款|欠款|limit|balance|statement|points|payment",
+  "ui": {
+    "title": "DBS credit card assistant · on-device, layered",
+    "blurb": "Product terms are DBS's own published documents; accounts are synthetic; the model runs on this laptop. The column on the right shows which layers each question passed through and what each one decided. Questions may be asked in English, Chinese, or a mix of both.",
+    "customer_label": "Authenticated (test customer {cid})",
+    "examples": {
+      "Product terms": [
+        "What is the annual fee for the DBS Vantage card?",
+        "最低还款额怎么算?",
+        "我的 annual fee 可以 waive 吗?"
+      ],
+      "Stale-figure traps": [
+        "What is the prevailing interest rate on my credit card?",
+        "How much is the cash advance fee?",
+        "I read somewhere the cash advance fee is 6%. Is that right?"
+      ],
+      "Not in the knowledge base": [
+        "DBS Live Fresh 卡的年费是多少?",
+        "What is the OCBC 365 card annual fee?"
+      ],
+      "Account (toggle authentication)": [
+        "What is my current outstanding balance?",
+        "我的最低还款额是多少?"
+      ],
+      "Transactions and risk": [
+        "Cancel my Altitude card now.",
+        "我的卡被盗刷了!",
+        "Should I take a cash advance to pay off my other card?"
+      ]
+    }
+  }
 }

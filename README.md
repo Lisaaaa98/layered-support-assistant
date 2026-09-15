@@ -32,14 +32,16 @@ Same pipeline, same local Qwen2.5-3B, two labelled sets:
 |---|---|---|
 | Confidently wrong on a critical fact | **0** | **0** |
 | Answers factually correct | 79% | 89% |
-| Answers carrying a citation | 100% | — (served from fields) |
+| Model answers carrying a citation | 100% | 100% |
 | Escalated to a human | 18 answerable questions | 16% of all questions |
-| Requests never reaching a model | 47% | 47% |
+| Requests never reaching a model | 47% | **76%** |
 
 Telco scores better on facts not because the system is better there, but because
 that industry allows most facts to be moved out of the model altogether: plan
 pricing is structured product data, while a bank's terms are legal text that has
-to be quoted. Where a domain can be structured, it should be.
+to be quoted. Three quarters of telco questions are answered by routing, the
+account record or the product table, and never reach a model at all. Where a
+domain can be structured, it should be.
 
 ### Caution against containment
 

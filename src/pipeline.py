@@ -235,7 +235,7 @@ def answer(question, retriever, backend, k=6, max_tokens=350, customer=None,
     # time, and its mistakes are wrong prices and wrong denials.
     served = _from_product_table(question)
     if served:
-        _step(trace, "product table", "answered", "由结构化字段渲染,未经过模型")
+        _step(trace, "product table", "answered", "rendered from parsed fields; no model call")
         return done(text=served, action="answer", backend="plans",
                     reason="served from the product table", cards=decision.cards)
 
