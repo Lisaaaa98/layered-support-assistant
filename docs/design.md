@@ -326,3 +326,89 @@ that appears in its own gold answer — it caught one on the first run.
    conflict register, so adjudication is a backstop rather than the mechanism.
 3. Extend the test set to semantic contradictions, which currently no metric
    covers.
+
+---
+
+## 11. A second industry: Singtel consumer mobile
+
+The bank build optimises for never stating a wrong figure and pays 18 handoffs
+for it. That trade is right for a bank and wrong for a telco, where the questions
+repeat, an error costs less, and a bot that sends one in eight answerable
+questions to an agent has no business case. Running the same pipeline against a
+second industry is how that claim gets tested rather than asserted.
+
+### What actually differed
+
+Porting touched 361 of 2,489 lines of `src`, roughly 15%, most of it path
+plumbing and one new parser. What is genuinely industry-specific turned out to
+be small, and now lives in `domains/*.json`: product catalogue, competitors,
+out-of-scope products, transaction scopes, the Chinese-English glossary, the
+nouns that mean "this customer's own record", and what counts as advice the
+assistant must not give.
+
+Three differences were only visible once the second industry existed:
+
+- **A third rendering strategy.** Singtel's support articles keep their prose as
+  JSON inside element attributes; the served HTML shows none of the charges the
+  articles exist to explain. Unescaping the page wholesale drags the surrounding
+  configuration into the text, so the attributes are parsed as JSON instead.
+  Across two industries that is four rendering strategies, and the parsers are
+  where porting cost lands — not the pipeline.
+- **Risk policy is a real difference, not a wording difference.** "Which
+  broadband plan should I get?" was refused as financial advice, because the
+  rule was hardcoded from the bank. The two test sets now encode opposite
+  expectations for the same shape of question.
+- **Account detection nouns are domain-specific.** "我还剩多少流量" matched
+  nothing under the bank's noun list; account routing was 6/10 until it moved to
+  config, then 10/10.
+
+Bank behaviour was re-verified after every step: router agreement 138/146,
+retrieval recall 71/75, and a byte-identical regenerated test set.
+
+### Caution against containment
+
+| Setting | Handled | Escalated | Critical errors | Answerable but escalated |
+|---|---|---|---|---|
+| Banking | 47% | 38% | 0 | 16 |
+| Softer refusal | 57% | 28% | 1 | 10 |
+| Telco | 72% | 17% | 1 | 3 |
+| Guardrails off | 73% | 17% | 1 | 3 |
+
+**Turning every guardrail off buys one percentage point.** Figure verification
+and conflict escalation cost almost no containment, because what they withhold
+was not going to become an answer. Neither industry has a reason to switch them
+off, which is worth knowing: caution here is not paid for in usability.
+
+### Structured extraction, and why it was the right lever
+
+Telco factual accuracy started at 49% against the bank's 79%, and the cause was
+the shape of the source rather than retrieval. The bank publishes prose; Singtel
+publishes a comparison grid that arrives as one flat string per plan. The model
+reading it picked wrong prices and denied allowances present in its own context.
+
+Parsing the grid into fields and answering from them — the treatment account
+figures already get — took factual accuracy to 89% and removed the last critical
+error, where the model had answered a question about the final late-payment fee
+with the reminder notice charge sitting in the same paragraph. The first
+integration fixed six cases and broke none, and evaluation runtime fell 45%
+because plan questions stopped reaching a model at all.
+
+Recommendation lives in that layer too, and is the capability the bank build has
+no equivalent of. It reports the constraint each rejected plan failed, so a
+customer who disagrees with the recommendation can see how it was reached.
+
+### Two failures recorded rather than smoothed over
+
+**A chunking fix that made things worse.** Splitting plan blocks on product
+names repaired two cross-product errors and introduced four elsewhere, because
+the roaming page names plan tiers to state their discounts and cutting there
+scattered the fares. Restricting the split to blocks naming three or more
+products separates a comparison grid from a qualifier. Even corrected, the
+aggregate did not move measurably, and with 35 scoreable cases one case is worth
+three points — the set cannot resolve an effect that size.
+
+**A stale label of mine.** One case asked which prepaid tier carries the most
+data and expected the $20 tier; the corpus also lists a $35 unlimited tier that
+the first extractor missed. The system's answer was better than the gold one.
+Corrected, and noted here because the pattern recurs: the first measurement of a
+new domain is partly a measurement of its labels.

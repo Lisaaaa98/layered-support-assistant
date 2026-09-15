@@ -1,12 +1,19 @@
-# DBS Credit Card Assistant — on-device, layered
+# Layered Support Assistant
 
-A customer-support assistant for DBS credit cards that runs entirely on an 8GB
-M1 laptop. Product terms are DBS's own published documents; customer accounts
-are synthetic. Questions can be asked in English, Chinese, or a mix of both.
+One customer-support pipeline, two industries, opposite operating points.
+Everything runs on an 8GB M1 laptop: product documents come from the providers'
+public websites, customer records are synthetic, the model is local. Questions
+can be asked in English, Chinese, or a mix of both.
 
-**The design is built around one finding.** DBS publishes two credit card
-agreements that contradict each other on three figures, and the stale one
-carries no date anywhere:
+**Banking** optimises for never stating a wrong figure about money, and pays for
+it in handoffs. **Telco** cannot afford those handoffs, because its questions
+repeat and the cost of an error is lower. Same code, different configuration,
+measured at both ends rather than argued about.
+
+## The problem it was built around
+
+A major Singapore bank publishes two credit card agreements that contradict each
+other on three figures, and the stale one carries no date anywhere:
 
 | Document | Date stated | Finance charge | Cash advance fee |
 |---|---|---|---|
@@ -19,26 +26,41 @@ figures to trust, and being able to show why afterwards.
 
 ## Results
 
-146 labelled cases, local Qwen2.5-3B:
+Same pipeline, same local Qwen2.5-3B, two labelled sets:
 
-| Metric | Result |
-|---|---|
-| **Confidently wrong on a critical fact** | **0** |
-| Answers carrying a citation | 54/54 = 100% |
-| Answers factually correct | 31/39 = 79% |
-| Behaviour matches expectation | 118/146 = 81% |
-| Answerable but handed to an agent | 18 |
-| Requests never reaching a model | 69/146 = 47% |
+| | Banking (146 cases) | Telco (92 cases) |
+|---|---|---|
+| Confidently wrong on a critical fact | **0** | **0** |
+| Answers factually correct | 79% | 89% |
+| Answers carrying a citation | 100% | — (served from fields) |
+| Escalated to a human | 18 answerable questions | 16% of all questions |
+| Requests never reaching a model | 47% | 47% |
 
-The system never stated a known-wrong figure on a critical fact. The cost is 18
-answerable questions escalated instead. That refusal rate is too high for
-production, and the cause is the 3B model rather than retrieval or
-architecture — the backend interface supports a larger model, which this machine
-cannot host and which therefore remains unverified.
+Telco scores better on facts not because the system is better there, but because
+that industry allows most facts to be moved out of the model altogether: plan
+pricing is structured product data, while a bank's terms are legal text that has
+to be quoted. Where a domain can be structured, it should be.
 
-[`docs/design.md`](docs/design.md) explains every decision behind those numbers,
-including two guardrails that were built, measured, and abandoned, and three
-bugs found in the evaluation tooling itself.
+### Caution against containment
+
+The trade-off, measured by running identical code at four settings:
+
+| Setting | Handled without a human | Escalated | Critical errors | Answerable but escalated |
+|---|---|---|---|---|
+| Banking settings | 47% | 38% | 0 | 16 |
+| Softer refusal only | 57% | 28% | 1 | 10 |
+| Telco settings | 72% | 17% | 1 | 3 |
+| All guardrails off | 73% | 17% | 1 | 3 |
+
+Two things fall out of this. Banking's settings applied to telco escalate 38% of
+questions, 16 of them answerable from the sources, which is not a viable service.
+And turning every guardrail off buys one percentage point: figure verification
+and conflict escalation cost almost no containment, because what they withhold
+was not going to become an answer anyway.
+
+[`docs/design.md`](docs/design.md) explains the reasoning; the day-by-day log,
+including the approaches that were built, measured and abandoned, is in
+[`docs/findings.md`](docs/findings.md).
 
 ## How it works
 
@@ -48,7 +70,10 @@ question
    ├─ Routing & entity check ──────── risk · advice · write action · account · not-in-scope
    │      (rules, no model)                        └─ ends here for 47% of requests
    │
-   ├─ Retrieval ──────────────────── BM25 + glossary + multilingual dense, filtered by card
+   ├─ Product table ──────────────── plan pricing and fees answered from fields
+   │      (telco only)
+   │
+   ├─ Retrieval ──────────────────── BM25 + glossary + multilingual dense, scope filtered
    │
    ├─ Conflict adjudication ──────── stale figures withheld before generation
    │      (rules, no model)
@@ -58,9 +83,22 @@ question
    └─ Figure grounding check ─────── every amount and percentage traced to a source
 ```
 
-Judgements about money are made in code, not in prompts: conflict adjudication,
-routing, refusal and figure checking are all deterministic, so each one can be
+Judgements about money are made in code, not in prompts, so each one can be
 tested and cited in an audit. The model is the last and least trusted component.
+
+## What porting to a second industry cost
+
+361 of 2,489 lines of `src`, about 15%, most of it path plumbing and one new
+parser. What genuinely differs between the two industries turned out to be small
+and specific, and now lives in `domains/*.json`: the product catalogue,
+competitors, out-of-scope products, transaction scopes, the Chinese-English
+glossary, the nouns that mean "this customer's own record", and the rule for
+what counts as advice the assistant must not give.
+
+That last one is the sharpest difference. A bank must not tell a customer
+whether to take a cash advance; a telco recommending a plan is doing its job.
+The two test sets encode that as opposite expectations for the same shape of
+question.
 
 ## Run
 
@@ -68,62 +106,52 @@ Requires [uv](https://docs.astral.sh/uv/) and Apple Silicon (the local model use
 
 ```bash
 uv sync
-uv run python scripts/fetch_sources.py   # download DBS's published documents
-uv run python src/ingest.py              # parse them into retrievable chunks
-uv run python app.py                     # demo UI at http://127.0.0.1:7860
+uv run python scripts/fetch_sources.py    # download the provider's public documents
+uv run python src/ingest.py               # parse them into retrievable chunks
+uv run python app.py                      # demo UI at http://127.0.0.1:7860
 ```
 
-The demo shows each answer beside the path that produced it: which layers ran,
-what each decided, and which retrieved chunks were withheld and why. A toggle
-runs the same model with no sources alongside, which is the clearest way to see
-what grounding is doing.
+Set `ASSISTANT_DOMAIN=telco` on any of those to work on the telco side; the
+default is `bank`. The telco build has one extra step, which turns the plan
+comparison grid into fields:
 
-Source documents are fetched rather than committed — they are DBS's own
+```bash
+ASSISTANT_DOMAIN=telco uv run python scripts/extract_plans.py
+```
+
+Source documents are fetched rather than committed — they are the providers'
 published material, and a checked-in copy would go stale silently. The first
-start also downloads Qwen2.5-3B-Instruct-4bit (~1.7GB) and
-multilingual-e5-small, then builds the vector index.
-
-Because the sources are live, promotional copy on the card pages does change
-between fetches. The figures that matter — fees, rates, thresholds — have been
-stable, but re-run the evaluation after fetching if you intend to rely on the
-numbers.
+start also downloads Qwen2.5-3B-Instruct-4bit (~1.7GB) and multilingual-e5-small.
 
 ## Evaluate
 
 ```bash
-uv run python eval/build_testset.py        # regenerate and validate the 146-case set
-uv run python eval/run_retrieval_eval.py   # retrieval layer only, no model
-uv run python eval/run_e2e_eval.py         # full pipeline, ~15 minutes on M1
+uv run python eval/build_testset.py          # bank set: regenerate and validate
+uv run python eval/run_retrieval_eval.py     # retrieval layer only, no model
+uv run python eval/run_e2e_eval.py           # full pipeline, ~15 minutes
+
+ASSISTANT_DOMAIN=telco uv run python eval/build_telco_testset.py
+ASSISTANT_DOMAIN=telco uv run python eval/run_policy_sweep.py   # the trade-off curve
 ```
 
 ## Layout
 
 | Path | Role |
 |---|---|
+| `src/domain.py` `domains/*.json` | What differs between industries, and nothing else |
 | `src/router.py` | Rule-based routing: risk, advice, out-of-scope, transactions, account |
-| `src/retrieve.py` `src/dense.py` `src/query.py` | BM25 + glossary + multilingual dense, card-scope filtering |
+| `src/retrieve.py` `src/dense.py` `src/query.py` | BM25 + glossary + multilingual dense, scope filtering |
 | `src/conflict.py` | Detects contradictory figures across documents and withholds stale ones |
-| `src/pipeline.py` | Orchestration and the per-layer trace the UI renders |
-| `src/verify.py` `src/extract.py` | Figure grounding check; extractive reference on refusal |
+| `src/plans.py` `scripts/extract_plans.py` | Product table: plan facts and recommendations, no model |
 | `src/accounts.py` | Synthetic accounts, template-rendered answers |
+| `src/verify.py` `src/extract.py` | Figure grounding check; extractive reference on refusal |
+| `src/pipeline.py` | Orchestration, policy settings, per-layer trace |
 | `src/llm.py` | Local MLX / hosted backends behind one interface |
-| `app.py` | Gradio UI showing each answer's path |
-| `eval/` | Test set, matching, retrieval and end-to-end evaluation |
-| `scripts/fetch_sources.py` | Downloads the public source documents |
+| `app.py` | Demo UI showing each answer's path |
+| `eval/` | Two labelled sets, shared authoring kit, retrieval / end-to-end / policy sweep |
 
 ## Licence
 
-[MIT](LICENSE), covering the code, evaluation set and documentation in this
-repository.
-
-It does not extend to DBS Bank's published documents, which the code downloads
-at run time, nor to any text derived from them. Those remain the property of
-their owner, are not redistributed here, and are not licensed by this project.
-This project is not affiliated with or endorsed by DBS Bank.
-
-## Documentation
-
-- [`docs/design.md`](docs/design.md) — the reasoning: problem, architecture,
-  measurements, failures, limitations.
-- [`docs/findings.md`](docs/findings.md) — the day-by-day working log, in
-  Chinese, with the dead ends in more detail.
+MIT, covering the code, evaluation sets and documentation. The providers'
+published documents are downloaded at run time, are not redistributed here, and
+are not covered by it. This project is not affiliated with DBS Bank or Singtel.
