@@ -138,7 +138,8 @@ case("B010", "怎么查我的流量用了多少?", "zh",
 
 # ══ 预付 ══════════════════════════════════════════════════════════
 case("H001", "How much is the hi! prepaid plan with the most data?", "en",
-     "$20 for 30 days with 700GB.", facts=["$20"], sources=["hi-prepaid"])
+     "$35 for 30 days, with unlimited data.", facts=["$35"], sources=["hi-prepaid"],
+     note="原标注写的是 $20/700GB,漏了语料中的 $35 不限量档;系统答对而标注错,已更正")
 case("H002", "What does the $15 hi! plan include?", "en",
      "500GB of 5G+ local and roaming data for 30 days.",
      facts=["500GB"], forbid=["700GB"], sources=["hi-prepaid"], trap="cross_product")
@@ -266,7 +267,7 @@ FORBIDDEN_EXTRA = {
     "P015": ["700"],           # 通话分钟 vs 其他数字
     "R001": ["$45", "$20"],    # 三档漫游包互为混淆项
     "R009": ["15%"],
-    "H001": ["500GB"],
+    "H001": ["500GB", "700GB"],
     "H003": ["$15"],
 }
 UNIT_SUFFIX = {}

@@ -1,0 +1,191 @@
+{
+  "plans": [
+    {
+      "key": "enhanced lite",
+      "name": "Enhanced Lite",
+      "monthly_price": 24.5,
+      "usual_price": 35.0,
+      "contract": "12 months",
+      "local_data": "300GB",
+      "malaysia_roaming": "10GB",
+      "asia_roaming": null,
+      "worldwide_roaming": null,
+      "talktime": "400",
+      "sms": "400",
+      "age_limit": null,
+      "source_chunk": "sim-only-plans#001"
+    },
+    {
+      "key": "enhanced core",
+      "name": "Enhanced Core",
+      "monthly_price": 36.0,
+      "usual_price": 40.0,
+      "contract": "none",
+      "local_data": "UNLIMITED",
+      "malaysia_roaming": "50GB",
+      "asia_roaming": "4GB",
+      "worldwide_roaming": null,
+      "talktime": "700",
+      "sms": "700",
+      "age_limit": null,
+      "source_chunk": "sim-only-plans#002"
+    },
+    {
+      "key": "priority plus",
+      "name": "Priority Plus",
+      "monthly_price": 49.5,
+      "usual_price": 55.0,
+      "contract": "none",
+      "local_data": "UNLIMITED",
+      "malaysia_roaming": "UNLIMITED",
+      "asia_roaming": "13GB",
+      "worldwide_roaming": null,
+      "talktime": "1000",
+      "sms": "1000",
+      "age_limit": null,
+      "source_chunk": "sim-only-plans#003"
+    },
+    {
+      "key": "priority ultra",
+      "name": "Priority Ultra",
+      "monthly_price": 72.0,
+      "usual_price": 80.0,
+      "contract": "none",
+      "local_data": "UNLIMITED",
+      "malaysia_roaming": "UNLIMITED",
+      "asia_roaming": "6GB",
+      "worldwide_roaming": "18GB",
+      "talktime": "1500",
+      "sms": "1500",
+      "age_limit": null,
+      "source_chunk": "sim-only-plans#004"
+    },
+    {
+      "key": "seniors sim only plan",
+      "name": "Seniors SIM Only Plan",
+      "monthly_price": 6.0,
+      "usual_price": 12.0,
+      "contract": "none",
+      "local_data": "340GB",
+      "malaysia_roaming": "6GB",
+      "asia_roaming": null,
+      "worldwide_roaming": null,
+      "talktime": "UNLIMITED",
+      "sms": "100",
+      "age_limit": "60 and above",
+      "source_chunk": "sim-only-plans#005"
+    }
+  ],
+  "roaming_passes": [
+    {
+      "key": "unlimitedroam neighbours",
+      "name": "UnlimitedRoam Neighbours",
+      "price": 20.0,
+      "days": 14,
+      "destinations": "Malaysia, Indonesia and Thailand",
+      "discount_priority": "30",
+      "discount_enhanced": "15",
+      "source_chunk": "roaming#000"
+    },
+    {
+      "key": "unlimitedroam asia",
+      "name": "UnlimitedRoam Asia",
+      "price": 35.0,
+      "days": 14,
+      "destinations": "19 destinations – Australia, Japan, South Korea and more​",
+      "discount_priority": "30",
+      "discount_enhanced": "15",
+      "source_chunk": "roaming#000"
+    },
+    {
+      "key": "unlimitedroam worldwide",
+      "name": "UnlimitedRoam Worldwide",
+      "price": 45.0,
+      "days": 14,
+      "destinations": "135 destinations – France, UK, USA and more",
+      "discount_priority": "30",
+      "discount_enhanced": "15",
+      "source_chunk": "roaming#000"
+    }
+  ],
+  "prepaid": [
+    {
+      "key": "hi! $15",
+      "name": "hi! $15/30 days",
+      "price": 15.0,
+      "days": 30,
+      "data": "500GB",
+      "note": "Best Value for 5G+",
+      "senior": false,
+      "source_chunk": "hi-prepaid#000"
+    },
+    {
+      "key": "hi! $20",
+      "name": "hi! $20/30 days",
+      "price": 20.0,
+      "days": 30,
+      "data": "700GB",
+      "note": "Best for Travel",
+      "senior": false,
+      "source_chunk": "hi-prepaid#000"
+    },
+    {
+      "key": "hi! $7",
+      "name": "hi! $7/30 days",
+      "price": 7.0,
+      "days": 30,
+      "data": "500GB",
+      "note": "Best Senior Plan in SG",
+      "senior": true,
+      "source_chunk": "hi-prepaid#001"
+    },
+    {
+      "key": "hi! $25",
+      "name": "hi! $25/30 days",
+      "price": 25.0,
+      "days": 30,
+      "data": "850GB",
+      "note": "Best for Frequent Travellers",
+      "senior": false,
+      "source_chunk": "hi-prepaid#002"
+    },
+    {
+      "key": "hi! $30",
+      "name": "hi! $30/30 days",
+      "price": 30.0,
+      "days": 30,
+      "data": "1000GB",
+      "note": "More Data at 2x Speed",
+      "senior": false,
+      "source_chunk": "hi-prepaid#002"
+    },
+    {
+      "key": "hi! $35",
+      "name": "hi! $35/30 days",
+      "price": 35.0,
+      "days": 30,
+      "data": "Unlimited",
+      "note": "Best Value",
+      "senior": false,
+      "source_chunk": "hi-prepaid#002"
+    }
+  ],
+  "charges": [
+    {
+      "key": "reminder notice charge",
+      "name": "Reminder notice charge",
+      "amount": 5.45,
+      "gst": "inclusive",
+      "when": "issued when the payment due date is missed",
+      "source_chunk": "late-payment-fees#001"
+    },
+    {
+      "key": "late payment fee",
+      "name": "Late payment fee",
+      "amount": 21.8,
+      "gst": "inclusive",
+      "when": "issued with the final reminder notice",
+      "source_chunk": "late-payment-fees#002"
+    }
+  ]
+}

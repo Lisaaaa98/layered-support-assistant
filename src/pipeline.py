@@ -150,6 +150,17 @@ def _refusal(reason, lang):
     return table.get(reason, default)
 
 
+def _from_product_table(question):
+    """Structured answer, when the active domain has a product table."""
+    try:
+        import plans
+    except ImportError:
+        return None
+    if not plans.available():
+        return None
+    return plans.answer(question)
+
+
 def _step(trace, stage, outcome, detail="", **data):
     """Record one layer's decision. The trace is what makes the pipeline
     explainable after the fact: which layer ended the request, and why."""
@@ -216,6 +227,17 @@ def answer(question, retriever, backend, k=6, max_tokens=350, customer=None,
         if decision.blocked_entity:
             text += BLOCKED_NOTE[lang].format(decision.blocked_entity)
         return done(text=text, action="refuse", backend="router")
+
+    # A figure that can be looked up exactly should not be restated by a
+    # probabilistic system. The account layer already works this way; plan data
+    # qualifies once parsed into fields, and the measurements said it should be:
+    # the model reads the flattened comparison grid correctly about half the
+    # time, and its mistakes are wrong prices and wrong denials.
+    served = _from_product_table(question)
+    if served:
+        _step(trace, "product table", "answered", "由结构化字段渲染,未经过模型")
+        return done(text=served, action="answer", backend="plans",
+                    reason="served from the product table", cards=decision.cards)
 
     search_kw = {"cards": decision.cards, "min_score": policy.min_score}
     if hasattr(retriever, "dense"):
