@@ -279,6 +279,57 @@ PARSERS = {"pdf": parse_pdf, "static": parse_static, "nextdata": parse_nextdata,
            "aem": parse_aem}
 
 
+def split_by_product(section, text, min_chars=800, min_products=3):
+    """Cut a block that compares several products into one piece per product.
+
+    Heading-based splitting assumes each fact has a heading. A comparison grid
+    breaks that assumption: Singtel's plan page flattens five plans and ten
+    prices into a single 2,471-character block with no heading per plan, so a
+    question about one plan retrieves all ten prices and the model picks among
+    them. Most of the factual errors on the telco set came from this one block.
+
+    Splitting on the product names themselves restores the property the
+    heading split was there to provide: one product's figures per chunk.
+
+    It fires only on blocks naming at least three products, because a product
+    name is not always a subject. The roaming page names two plan tiers to
+    state their discounts, and cutting there scattered the roaming prices away
+    from the passes they belong to: the first version of this fix repaired two
+    cross-product errors and introduced four elsewhere. A comparison grid
+    names every product it compares; a qualifier names one or two.
+    """
+    names = sorted(domain.known_products(), key=len, reverse=True)
+    if len(text) < min_chars:
+        return [(section, text)]
+
+    marks = []
+    for name in names:
+        for m in re.finditer(re.escape(name), text, re.I):
+            marks.append((m.start(), name))
+    marks.sort()
+    # Keep the first mention of each product only: later ones are cross
+    # references inside another product's block.
+    seen, cuts = set(), []
+    for pos, name in marks:
+        if name.lower() in seen:
+            continue
+        seen.add(name.lower())
+        cuts.append((pos, name))
+    if len(cuts) < min_products:
+        return [(section, text)]
+
+    pieces = []
+    for i, (pos, name) in enumerate(cuts):
+        end = cuts[i + 1][0] if i + 1 < len(cuts) else len(text)
+        body = text[pos:end].strip()
+        if len(body) > 40:
+            pieces.append((f"{section} · {name}", body))
+    preamble = text[:cuts[0][0]].strip()
+    if len(preamble) > 120:
+        pieces.insert(0, (section, preamble))
+    return pieces or [(section, text)]
+
+
 def main():
     manifest = json.loads(domain.sources_path().read_text(encoding="utf-8"))
     retrieved_at = manifest["retrieved_at"]
@@ -293,7 +344,8 @@ def main():
         eff_date, confidence = date_info(stated, doc["freshness"], retrieved_at)
         product_scope = infer_product_scope(doc_id)
 
-        kept = [(sec, txt) for sec, txt in chunks if len(txt) >= MIN_CHARS]
+        split = [piece for sec, txt in chunks for piece in split_by_product(sec, txt)]
+        kept = [(sec, txt) for sec, txt in split if len(txt) >= MIN_CHARS]
         dropped = len(chunks) - len(kept)
         title = doc["title"]
         for i, (section, text) in enumerate(kept):

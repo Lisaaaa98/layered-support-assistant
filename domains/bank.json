@@ -121,5 +121,7 @@
     "agreement": 3,
     "card_product": 2
   },
-  "advice_patterns": "should i\\b|worth (?:paying|it)\\b|which card should\\b|better (?:to|option)\\b|help me improve my credit|maximise my (?:investment|return)|该不该|应不应该|值不值得|划算|建议我|你觉得我|帮我提高.{0,6}(?:信用|评分)"
+  "advice_patterns": "should i\\b|worth (?:paying|it)\\b|which card should\\b|better (?:to|option)\\b|help me improve my credit|maximise my (?:investment|return)|该不该|应不应该|值不值得|划算|建议我|你觉得我|帮我提高.{0,6}(?:信用|评分)",
+  "account_nouns_en": "balance|statement|bill|due date|payment|limit|points|account|transactions?|expiry|annual fee",
+  "account_nouns_zh": "账单|余额|额度|积分|账户|消费|还款|欠款|limit|balance|statement|points|payment"
 }

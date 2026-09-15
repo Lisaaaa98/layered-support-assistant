@@ -86,12 +86,23 @@ TRANSACTION_PATTERNS = (r"帮我|替我|给我(?:办|申请|调|改|停)|请(?:�
 
 # "my" and the noun are often separated ("my current outstanding balance"),
 # so allow a short gap rather than requiring adjacency.
-ACCOUNT_PATTERNS = (r"\bmy\b[\w\s]{0,24}?\b(balance|statement|bill|due date|payment|limit|points|account|transactions?|expiry|annual fee)\b"
-                    r"|how much (?:do|have) i\b|am i eligible\b|did i\b|have i\b"
-                    r"|show me my|do i have\b|was i charged|have i been charged|am i (?:charged|due)"
-                    r"|我的[\w\s]{0,12}?(账单|余额|额度|积分|账户|消费|还款|欠款|limit|balance|statement|points|payment)"
-                    r"|我(?:这个月|上个月|本期|这次)|我还有多少|我刷了多少|我的年费(?:扣|收)"
-                    r"|我的卡[\w\s]{0,8}(到期|有效期|额度)|我这次[\w\s]{0,14}(due|到期|账单)")
+# Which nouns mean "this customer's own record" is domain-specific: a bank
+# customer asks about a balance, a telco customer about data left and contract
+# end date. The sentence shapes around them are not.
+def account_patterns():
+    cfg = domain.config()
+    return (r"\bmy\b[\w\s]{0,24}?\b(" + cfg["account_nouns_en"] + r")\b"
+            r"|how much (?:do|have) i\b|am i eligible\b|did i\b|have i\b"
+            r"|show me my|do i have\b|was i charged|have i been charged|am i (?:charged|due)"
+            r"|我的[\w\s]{0,12}?(" + cfg["account_nouns_zh"] + r")"
+            r"|我(?:这个月|上个月|本期|这次)|我还有多少|我还剩多少|我刷了多少|我用了多少"
+            r"|我的年费(?:扣|收)|我的卡[\w\s]{0,8}(到期|有效期|额度)|我这次[\w\s]{0,14}(due|到期|账单)")
+
+
+# Asking how to look something up is a procedure question, answerable from
+# public documentation. Asking what the value is needs the customer's record.
+PROCEDURAL = (r"^\s*how (?:do|can) i\b|^\s*how to\b|\bwhere (?:do|can) i (?:check|see|find)\b"
+              r"|怎么(?:查|看|下载|设置|开通|取消)|如何(?:查|看|申请|办理)|在哪(?:里)?(?:查|看)")
 
 
 @dataclass
@@ -181,13 +192,14 @@ def route(question):
                      cards=known, blocked_entity=unknown[0])
 
     # 5. Actions the assistant must never perform on the customer's behalf.
-    if re.search(IMPERATIVE_ACTION, low) or re.search(TRANSACTION_PATTERNS, low):
+    if (re.search(IMPERATIVE_ACTION, low) or re.search(TRANSACTION_PATTERNS, low)) \
+            and not re.search(PROCEDURAL, low):
         return Route("transaction", "guide_only", "write action requested", cards=known)
 
     # 6. Anything about *this customer's* records needs authentication, unless
     #    the customer is asking what the rules would do rather than what their
     #    account currently says.
-    if re.search(ACCOUNT_PATTERNS, low) and not asks_policy:
+    if re.search(account_patterns(), low) and not asks_policy and not re.search(PROCEDURAL, low):
         return Route("account", "api_lookup", "customer-specific data", cards=known)
 
     return Route("knowledge", "answer", "general product question", cards=known)

@@ -117,8 +117,8 @@ class HybridRetriever:
         self.dense = dense or DenseIndex().build()
         self.by_id = {c["chunk_id"]: c for c in self.lexical.chunks}
 
-    def search(self, query, k=5, dense_floor=DENSE_FLOOR, cards=None):
-        lex_hits = self.lexical.search(query, k=k * 2, cards=cards)
+    def search(self, query, k=5, dense_floor=DENSE_FLOOR, cards=None, min_score=MIN_SCORE):
+        lex_hits = self.lexical.search(query, k=k * 2, cards=cards, min_score=min_score)
         dense_hits = Retriever._scope_filter(
             [h for h in self.dense.search(query, k=k * 3 if cards else k * 2)
              if h["score"] >= dense_floor], cards)

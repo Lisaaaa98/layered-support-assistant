@@ -1,0 +1,1411 @@
+{
+  "top_k": 6,
+  "cases": 92,
+  "source_recall": {
+    "hit": 49,
+    "total": 53,
+    "rate": 0.925
+  },
+  "forbidden_suppression": {
+    "ok": 6,
+    "total": 24,
+    "rate": 0.25
+  },
+  "by_language": {
+    "en": {
+      "hit": 34,
+      "total": 34
+    },
+    "zh": {
+      "hit": 14,
+      "total": 16
+    },
+    "mixed": {
+      "hit": 1,
+      "total": 3
+    }
+  },
+  "critical_leaks": [
+    {
+      "id": "P004",
+      "remaining": [
+        "$24.50"
+      ],
+      "question": "How much is Enhanced Core?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "P005",
+      "remaining": [
+        "$24.50",
+        "$36.00"
+      ],
+      "question": "How much is Priority Plus?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "P006",
+      "remaining": [
+        "$49.50"
+      ],
+      "question": "How much is Priority Ultra?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "R001",
+      "remaining": [
+        "$20",
+        "$45"
+      ],
+      "question": "How much is UnlimitedRoam Asia?",
+      "trap": null
+    },
+    {
+      "id": "R003",
+      "remaining": [
+        "$35"
+      ],
+      "question": "How much is UnlimitedRoam Worldwide?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "R004",
+      "remaining": [
+        "$45"
+      ],
+      "question": "How much is UnlimitedRoam Neighbours?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "R010",
+      "remaining": [
+        "30%"
+      ],
+      "question": "Enhanced 用户漫游有折扣吗?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "B003",
+      "remaining": [
+        "$5.45"
+      ],
+      "question": "How much is the late payment fee?",
+      "trap": null
+    },
+    {
+      "id": "N006",
+      "remaining": [
+        "$24.50",
+        "$72.00"
+      ],
+      "question": "What is the price of the Singtel Elite Max plan?",
+      "trap": "not_in_kb"
+    },
+    {
+      "id": "N007",
+      "remaining": [
+        "$72.00"
+      ],
+      "question": "Singtel 有没有 Ultra Pro Max 套餐?",
+      "trap": "not_in_kb"
+    }
+  ],
+  "refusal_cases": {
+    "correctly_empty": 2,
+    "total": 11
+  },
+  "leaks": [
+    {
+      "id": "P004",
+      "remaining": [
+        "$24.50"
+      ],
+      "question": "How much is Enhanced Core?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "P005",
+      "remaining": [
+        "$24.50",
+        "$36.00"
+      ],
+      "question": "How much is Priority Plus?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "P006",
+      "remaining": [
+        "$49.50"
+      ],
+      "question": "How much is Priority Ultra?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "P010",
+      "remaining": [
+        "50GB"
+      ],
+      "question": "How much local data does Enhanced Lite give me?",
+      "trap": null
+    },
+    {
+      "id": "P013",
+      "remaining": [
+        "50GB"
+      ],
+      "question": "How much Malaysia roaming is included with Enhanced Lite?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "P014",
+      "remaining": [
+        "10GB"
+      ],
+      "question": "How much Malaysia roaming comes with Enhanced Core?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "P015",
+      "remaining": [
+        "700"
+      ],
+      "question": "How many talktime minutes does Enhanced Lite include?",
+      "trap": null
+    },
+    {
+      "id": "R001",
+      "remaining": [
+        "$20",
+        "$45"
+      ],
+      "question": "How much is UnlimitedRoam Asia?",
+      "trap": null
+    },
+    {
+      "id": "R003",
+      "remaining": [
+        "$35"
+      ],
+      "question": "How much is UnlimitedRoam Worldwide?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "R004",
+      "remaining": [
+        "$45"
+      ],
+      "question": "How much is UnlimitedRoam Neighbours?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "R008",
+      "remaining": [
+        "135"
+      ],
+      "question": "How many destinations does UnlimitedRoam Asia cover?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "R010",
+      "remaining": [
+        "30%"
+      ],
+      "question": "Enhanced 用户漫游有折扣吗?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "B003",
+      "remaining": [
+        "$5.45"
+      ],
+      "question": "How much is the late payment fee?",
+      "trap": null
+    },
+    {
+      "id": "H001",
+      "remaining": [
+        "500GB"
+      ],
+      "question": "How much is the hi! prepaid plan with the most data?",
+      "trap": null
+    },
+    {
+      "id": "H002",
+      "remaining": [
+        "700GB"
+      ],
+      "question": "What does the $15 hi! plan include?",
+      "trap": "cross_product"
+    },
+    {
+      "id": "H003",
+      "remaining": [
+        "$15"
+      ],
+      "question": "hi! 有长者套餐吗?",
+      "trap": null
+    },
+    {
+      "id": "N006",
+      "remaining": [
+        "$24.50",
+        "$72.00"
+      ],
+      "question": "What is the price of the Singtel Elite Max plan?",
+      "trap": "not_in_kb"
+    },
+    {
+      "id": "N007",
+      "remaining": [
+        "$72.00"
+      ],
+      "question": "Singtel 有没有 Ultra Pro Max 套餐?",
+      "trap": "not_in_kb"
+    }
+  ],
+  "rows": [
+    {
+      "id": "P001",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P002",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P003",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P004",
+      "layer": "knowledge",
+      "trap": "cross_product",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "$24.50"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P005",
+      "layer": "knowledge",
+      "trap": "cross_product",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "$24.50",
+        "$36.00"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P006",
+      "layer": "knowledge",
+      "trap": "cross_product",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "$49.50"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P007",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P008",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P009",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P010",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "50GB"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P011",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P012",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P013",
+      "layer": "knowledge",
+      "trap": "cross_product",
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "50GB"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P014",
+      "layer": "knowledge",
+      "trap": "cross_product",
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "10GB"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P015",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "700"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P016",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P017",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "P018",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R001",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "$20",
+        "$45"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R002",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R003",
+      "layer": "knowledge",
+      "trap": "cross_product",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "$35"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R004",
+      "layer": "knowledge",
+      "trap": "cross_product",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "$45"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R005",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R006",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": false,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R007",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R008",
+      "layer": "knowledge",
+      "trap": "cross_product",
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "135"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R009",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R010",
+      "layer": "knowledge",
+      "trap": "cross_product",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [
+        "30%"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R011",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "mixed",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "R012",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "B001",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "B002",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "B003",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "$5.45"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "B004",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "B005",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "B006",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "B007",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "B008",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "B009",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "B010",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "H001",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "500GB"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "H002",
+      "layer": "knowledge",
+      "trap": "cross_product",
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [
+        "700GB"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "H003",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [
+        "$15"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "H004",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "H005",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "H006",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "D001",
+      "layer": "knowledge",
+      "trap": "recommendation",
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "D002",
+      "layer": "knowledge",
+      "trap": "recommendation",
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": false,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "D003",
+      "layer": "knowledge",
+      "trap": "recommendation",
+      "severity": "normal",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "D004",
+      "layer": "risk",
+      "trap": "financial_advice",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N001",
+      "layer": "knowledge",
+      "trap": "competitor",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N002",
+      "layer": "knowledge",
+      "trap": "competitor",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N003",
+      "layer": "knowledge",
+      "trap": "out_of_scope",
+      "severity": "normal",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N004",
+      "layer": "knowledge",
+      "trap": "out_of_scope",
+      "severity": "normal",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N005",
+      "layer": "knowledge",
+      "trap": "out_of_scope",
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N006",
+      "layer": "knowledge",
+      "trap": "not_in_kb",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [
+        "$24.50",
+        "$72.00"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N007",
+      "layer": "knowledge",
+      "trap": "not_in_kb",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [
+        "$72.00"
+      ],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N008",
+      "layer": "knowledge",
+      "trap": "out_of_scope",
+      "severity": "normal",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N009",
+      "layer": "knowledge",
+      "trap": "speculation",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "N010",
+      "layer": "risk",
+      "trap": "privacy",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A001",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A002",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A003",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A004",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A005",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A006",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A007",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A008",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A009",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "A010",
+      "layer": "account",
+      "trap": "needs_auth",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T001",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T002",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T003",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T004",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T005",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T006",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T007",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "T008",
+      "layer": "transaction",
+      "trap": "write_action",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S001",
+      "layer": "risk",
+      "trap": "lost_card",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S002",
+      "layer": "risk",
+      "trap": "lost_card",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S003",
+      "layer": "risk",
+      "trap": "fraud",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S004",
+      "layer": "risk",
+      "trap": "fraud",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S005",
+      "layer": "risk",
+      "trap": "scam",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S006",
+      "layer": "risk",
+      "trap": "scam",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S007",
+      "layer": "risk",
+      "trap": "dispute",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S008",
+      "layer": "risk",
+      "trap": "dispute",
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": null,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S009",
+      "layer": "risk",
+      "trap": "hardship",
+      "severity": "critical",
+      "lang": "en",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "S010",
+      "layer": "risk",
+      "trap": "card_blocked",
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": null,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "V001",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "zh",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "V002",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "normal",
+      "lang": "mixed",
+      "recalled": false,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "V003",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "mixed",
+      "recalled": false,
+      "leaked": [],
+      "empty": true,
+      "suppressed": [],
+      "escalate": false
+    },
+    {
+      "id": "V004",
+      "layer": "knowledge",
+      "trap": null,
+      "severity": "critical",
+      "lang": "en",
+      "recalled": true,
+      "leaked": [],
+      "empty": false,
+      "suppressed": [],
+      "escalate": false
+    }
+  ]
+}

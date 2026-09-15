@@ -130,5 +130,7 @@
     "prepaid": 4,
     "support": 3
   },
-  "advice_patterns": "should i (?:borrow|take a loan|finance|invest)|worth financing\\b|help me improve my credit|credit score|该不该(?:借|贷|投资)|信用评分|帮我提高.{0,6}(?:信用|评分)"
+  "advice_patterns": "should i (?:borrow|take a loan|finance|invest)|worth financing\\b|help me improve my credit|credit score|该不该(?:借|贷|投资)|信用评分|帮我提高.{0,6}(?:信用|评分)",
+  "account_nouns_en": "bill|statement|due date|payment|usage|data left|remaining data|plan|contract|line|number|subscription|account|roaming status",
+  "account_nouns_zh": "账单|话费|欠费|用量|流量|剩余|套餐|合约|号码|线路|账户|开通|plan|bill|data|contract"
 }

@@ -4,7 +4,7 @@ The model is the last and least trusted component. Everything upstream exists
 to ensure that by the time it is called, the context contains exactly one
 value for any fact it might quote, and nothing it must not see.
 """
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace  # noqa: F401
 
 from conflict import resolve_context
 from router import route
@@ -34,6 +34,43 @@ Before deciding you cannot answer, check each source title for the product the c
 A strict refusal rule makes a small model refuse questions it can answer, so the check comes first and the refusal second."""
 
 NO_CONTEXT_REPLY = "INSUFFICIENT_CONTEXT"
+
+# The softer variant drops the hard refusal instruction. On a 3B model the
+# strict wording produced refusals on questions the sources answered, which is
+# the right trade where a wrong figure costs a customer money and the wrong one
+# where the same behaviour would send one in eight answerable questions to an
+# agent.
+SOFT_REFUSAL_CLAUSE = """4. If the sources genuinely do not cover the question, reply \
+INSUFFICIENT_CONTEXT. Prefer answering from the sources where they do cover it."""
+
+STRICT_REFUSAL_CLAUSE = """4. If the sources do not contain the answer, reply exactly: \
+INSUFFICIENT_CONTEXT"""
+
+
+@dataclass(frozen=True)
+class Policy:
+    """How cautious to be. The pipeline is the same in every industry; this is
+    what differs, and making it a parameter is what lets the difference be
+    measured instead of argued about."""
+
+    name: str = "banking"
+    min_score: float = 1.0
+    dense_floor: float = 0.82
+    strict_refusal: bool = True
+    # Promote a quoted passage from reference material to an answer.
+    promote_fallback: bool = False
+    verify_figures: bool = True
+    escalate_unresolved_conflict: bool = True
+
+
+BANKING = Policy()
+TELCO = Policy(name="telco", min_score=0.6, dense_floor=0.78,
+               strict_refusal=False, promote_fallback=True)
+
+
+def system_prompt(policy):
+    clause = STRICT_REFUSAL_CLAUSE if policy.strict_refusal else SOFT_REFUSAL_CLAUSE
+    return SYSTEM.replace(STRICT_REFUSAL_CLAUSE, clause)
 
 
 @dataclass
@@ -126,7 +163,8 @@ def _chunk_view(c):
             "preview": c["text"][:220]}
 
 
-def answer(question, retriever, backend, k=6, max_tokens=350, customer=None):
+def answer(question, retriever, backend, k=6, max_tokens=350, customer=None,
+           policy=BANKING):
     """Answer one question.
 
     `customer` stands in for an authenticated session. Without it, account
@@ -179,7 +217,10 @@ def answer(question, retriever, backend, k=6, max_tokens=350, customer=None):
             text += BLOCKED_NOTE[lang].format(decision.blocked_entity)
         return done(text=text, action="refuse", backend="router")
 
-    hits = retriever.search(question, k=k, cards=decision.cards)
+    search_kw = {"cards": decision.cards, "min_score": policy.min_score}
+    if hasattr(retriever, "dense"):
+        search_kw["dense_floor"] = policy.dense_floor
+    hits = retriever.search(question, k=k, **search_kw)
     _step(trace, "retrieval", f"{len(hits)} chunks",
           f"card scope: {', '.join(decision.cards) if decision.cards else 'none (general question)'}",
           chunks=[_chunk_view(h) for h in hits])
@@ -204,7 +245,7 @@ def answer(question, retriever, backend, k=6, max_tokens=350, customer=None):
 
     user = (f"Customer question:\n{question}\n\n"
             f"Sources:\n{format_context(context)}")
-    reply = backend.complete(SYSTEM, user, max_tokens=max_tokens)
+    reply = backend.complete(system_prompt(policy), user, max_tokens=max_tokens)
     _step(trace, "model", reply.backend, f"{reply.model} · {reply.seconds}s · {reply.tokens} tokens",
           raw=reply.text)
 
@@ -229,6 +270,12 @@ def answer(question, retriever, backend, k=6, max_tokens=350, customer=None):
         reference = extractive_answer(question, context)
         _step(trace, "fallback", "reference" if reference else "none",
               "model declined; clause attached to the handoff" if reference else "model declined; no quotable passage")
+        if reference and policy.promote_fallback:
+            # Quoting the clause as the answer instead of attaching it to a
+            # handoff. Measured at 7 right out of 14 on the bank set, which is
+            # why banking leaves this off.
+            return done(text=reference, action="answer", backend="extractive",
+                        reason="model declined; quoted passage", **common)
         text = _handoff("escalate", lang)
         if reference:
             text += f"\n{REFERENCE_PREFIX[lang]}\n{reference}"
@@ -239,7 +286,7 @@ def answer(question, retriever, backend, k=6, max_tokens=350, customer=None):
     # Last gate: every amount and percentage stated must exist in the sources
     # the model was shown. A fabricated figure fails here even when the answer
     # is otherwise well-formed and correctly cited.
-    unsupported = verify_figures(reply.text, context)
+    unsupported = verify_figures(reply.text, context) if policy.verify_figures else []
     _step(trace, "verifier", "blocked" if unsupported else "passed",
           "figures with no source: " + ", ".join(u["text"] for u in unsupported)
           if unsupported else "every amount and percentage traces back to a source")
@@ -248,7 +295,11 @@ def answer(question, retriever, backend, k=6, max_tokens=350, customer=None):
                     backend="verifier", reason="unverifiable figure: "
                     + ", ".join(u["text"] for u in unsupported), **common)
 
-    return done(text=reply.text, action="answer", escalate=resolved["escalate"],
+    if resolved["escalate"] and policy.escalate_unresolved_conflict:
+        return done(text=_handoff("escalate", lang), action="escalate", escalate=True,
+                    backend="conflict", reason="unresolved conflict", **common)
+
+    return done(text=reply.text, action="answer", escalate=False,
                 backend=reply.backend, **common)
 
 
