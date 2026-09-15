@@ -1,5 +1,5 @@
 [project]
-name = "dbs-card-assistant"
+name = "layered-support-assistant"
 version = "0.1.0"
 description = "On-device, layered customer-support assistant for DBS credit cards"
 readme = "README.md"
